@@ -3,6 +3,7 @@
   <head><style>html[lang=fr] [lang=ar], html[lang=ar] [lang=fr]{display:none}</style></head>
   <body>
     <b:section id="header"/><b:section id="hero"/><b:section id="marquee"/><b:section id="services"/><b:section id="beforeafter"/><b:section id="main"/><b:section id="numbers"/><b:section id="reviews"/><b:section id="team"/><b:section id="contact"/>
+    <b:widget id="LinkList2"><a expr:href="data:blog.homepageUrl + data:link.target"/></b:widget>
     <svg><symbol id="one"/></svg>
     <a data-wa="" href="#contact">WhatsApp</a>
     <script type="application/ld+json">{"name":"x"<b:if cond="data:x">,"telephone":"1"</b:if>}</script>

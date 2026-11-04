@@ -145,6 +145,16 @@ def rule_jsonld_guarded(text: str, root) -> list[str]:
             for key in OPTIONAL_JSONLD_KEYS if f'"{key}"' in unguarded_text(script)]
 
 
+def rule_nav_absolute(text: str, root) -> list[str]:
+    nav = next((element for element in root.iter()
+                if local_name(element.tag) == "widget" and element.get("id") == "LinkList2"), None)
+    if nav is None:
+        return ["widget LinkList2 (navigation) is missing"]
+    hrefs = [value for element in nav.iter() for key, value in element.attrib.items() if local_name(key) == "href"]
+    return [] if any("data:blog.homepageUrl" in value for value in hrefs) else \
+        ["LinkList2 hrefs must be built with data:blog.homepageUrl"]
+
+
 RULES = [
     ("well_formed", rule_well_formed),
     ("html_attrs", rule_html_attrs),
@@ -157,6 +167,7 @@ RULES = [
     ("contact_everywhere", rule_contact_everywhere),
     ("wa_buttons", rule_wa_buttons),
     ("jsonld_guarded", rule_jsonld_guarded),
+    ("nav_absolute", rule_nav_absolute),
 ]
 
 

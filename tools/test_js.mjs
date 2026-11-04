@@ -46,3 +46,16 @@ test('buildLd adds telephone and PostalAddress from contact rows', () => {
   assert.deepEqual(T.buildLd(base, {}), base);
   assert.equal(T.buildLd(base, { address: 'Maârif | المعاريف' }).address.streetAddress, 'Maârif');
 });
+
+test('pickLang: stored fr/ar wins, else blog locale (ar* = ar, other = fr)', () => {
+  assert.equal(T.pickLang(null, 'ar-MA'), 'ar');
+  assert.equal(T.pickLang(null, 'fr'), 'fr');
+  assert.equal(T.pickLang('ar', 'fr'), 'ar');
+  assert.equal(T.pickLang('xx', 'fr'), 'fr');
+  assert.equal(T.pickLang(null, null), 'fr');
+});
+
+test('setLang and applyBi are exported by atlas-js', () => {
+  assert.equal(typeof T.setLang, 'function');
+  assert.equal(typeof T.applyBi, 'function');
+});

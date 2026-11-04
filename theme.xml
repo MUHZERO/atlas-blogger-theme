@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<html b:css='false' b:js='false' b:layoutsVersion='3' b:defaultwidgetversion='2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<html b:css='false' b:js='false' b:layoutsVersion='3' b:defaultwidgetversion='2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr' expr:data-default='data:blog.locale'>
 <head>
 <meta charset='utf-8'/>
 <meta content='width=device-width, initial-scale=1' name='viewport'/>
+<!-- sets lang/dir/js before the first paint; the stored choice wins over the blog locale -->
+<script id='atlas-head'>
+//<![CDATA[
+function pickLang(s,d){return s=='fr'||s=='ar'?s:/^ar/.test(d)?'ar':'fr'}
+if(typeof document!='undefined'){var h=document.documentElement,l;try{l=localStorage['atlas-lang']}catch(e){}l=pickLang(l,h.getAttribute('data-default'));h.lang=l;h.dir=l=='ar'?'rtl':'ltr';h.className='js'}
+if(typeof module!='undefined')module.exports={pickLang};
+//]]>
+</script>
 <title><data:view.title.escaped/></title>
 <link href='https://fonts.googleapis.com' rel='preconnect'/>
 <link crossorigin='' href='https://fonts.gstatic.com' rel='preconnect'/>
@@ -74,6 +82,32 @@ html[dir=rtl] .btn:hover svg.flip{transform:scaleX(-1) translateX(4px)}
 .js .rv{opacity:0;transform:translateY(28px)}
 .js .rv.in{opacity:1;transform:none}
 
+/* header: transparent over the hero, solid after scrolling; Header1 and LinkList2 sit in the bar */
+header{position:fixed;inset:0 0 auto;z-index:30;color:#fff;transition:background .4s,color .4s,box-shadow .4s}
+header.solid{background:rgba(247,245,241,.9);backdrop-filter:blur(12px);color:var(--ink);box-shadow:0 1px 0 var(--line)}
+.bar{display:flex;align-items:center;gap:28px;height:72px}
+.bar #header,.bar .widget{display:contents}
+.logo{display:flex;align-items:center;gap:12px}
+.logo .mark{width:40px;height:40px;border-radius:12px;background:var(--accent);color:#fff;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.logo .mark svg{width:24px;height:24px}
+.logo img{height:40px;width:auto}
+.logo b{font-size:18px;font-weight:700;letter-spacing:.01em}
+nav{display:flex;gap:26px;margin-inline-start:auto;font-size:14px}
+nav a{opacity:.8;position:relative;padding:4px 0}
+nav a::after{content:"";position:absolute;inset:auto 0 0;height:1.5px;background:currentColor;transform:scaleX(0);transition:transform .35s var(--ease)}
+nav a:hover{opacity:1}
+nav a:hover::after{transform:scaleX(1)}
+/* language switch: segmented pill, the thumb slides to the active language */
+.lang{position:relative;display:flex;align-items:center;height:40px;padding:3px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);direction:ltr}
+header.solid .lang{background:var(--surface);border-color:var(--line)}
+.lang .globe{width:16px;height:16px;margin:0 6px 0 8px;opacity:.75}
+.lang button{position:relative;z-index:1;height:32px;min-width:40px;padding:0 10px;border:0;border-radius:999px;background:none;font-size:13px;font-weight:600;opacity:.75;transition:color .35s,opacity .35s}
+.lang button[aria-pressed=true]{opacity:1;color:var(--ink)}
+.lang .thumb{position:absolute;top:3px;bottom:3px;border-radius:999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:left .35s var(--ease),width .35s var(--ease)}
+header.solid .lang .thumb{background:var(--accent)}
+header.solid .lang button[aria-pressed=true]{color:#fff}
+.bar .btn{height:42px;font-size:14px}
+
 /* contact band: Image1 is the background, LinkList1 the content */
 .contact-wrap{margin-bottom:24px}
 .cta-band{position:relative;isolation:isolate;border-radius:28px;overflow:hidden;color:#fff;background:var(--accent)}
@@ -105,6 +139,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 @keyframes ping{to{transform:scale(1.6);opacity:0}}
 .fab svg{width:26px;height:26px}
 @media (max-width:960px){
+  nav,.bar .btn{display:none}
+  .lang{margin-inline-start:auto}
   .cta-band .LinkList{grid-template-columns:1fr;padding:48px 24px}
   .fab{display:grid}
 }
@@ -119,7 +155,45 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <body>
 <b:include name='icons'/>
 
-  <b:section id='header' showaddelement='yes'/>
+<header id='top'>
+  <div class='wrap bar'>
+  <b:section id='header' maxwidgets='2' showaddelement='no'>
+    <b:widget id='Header1' locked='true' title='Header' type='Header' version='2' visible='true'>
+      <b:includable id='main'>
+        <a class='logo' expr:aria-label='data:title' expr:href='data:blog.homepageUrl'>
+          <b:if cond='data:sourceUrl'>
+            <img expr:alt='data:title' expr:src='resizeImage(data:sourceUrl, 240)' height='40'/>
+          <b:else/>
+            <span class='mark'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M5 21V11a7 7 0 0 1 14 0v10'/><path d='M9 21v-8a3 3 0 0 1 6 0v8'/><path d='M3 21h18'/></svg></span>
+            <b class='bi'><data:title/></b>
+          </b:if>
+        </a>
+      </b:includable>
+    </b:widget>
+    <!-- LinkList2 items: NAME = "FR | AR", TARGET = #services, #projets... (kept on the home page from any view) or a full address -->
+    <b:widget id='LinkList2' locked='true' title='Navigation' type='LinkList' version='2' visible='true'>
+      <b:includable id='main'>
+        <nav>
+          <b:loop values='data:links' var='link'>
+            <b:if cond='data:link.target contains &quot;#&quot;'>
+              <a class='bi' expr:href='data:blog.homepageUrl + data:link.target'><data:link.name/></a>
+            <b:else/>
+              <a class='bi' expr:href='data:link.target'><data:link.name/></a>
+            </b:if>
+          </b:loop>
+        </nav>
+      </b:includable>
+    </b:widget>
+  </b:section>
+    <div aria-label='Langue / اللغة' class='lang' id='lang' role='group'>
+      <svg class='globe' fill='none' stroke='currentColor' stroke-linecap='round' stroke-width='2' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10'/><path d='M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20'/></svg>
+      <span class='thumb'></span>
+      <button aria-pressed='false' data-lang='fr' type='button'>FR</button>
+      <button aria-pressed='false' data-lang='ar' type='button'>عربي</button>
+    </div>
+    <a class='btn btn-primary' data-wa='' href='#contact'><svg><use href='#i-chat'/></svg>WhatsApp</a>
+  </div>
+</header>
   <b:section id='hero' showaddelement='yes'/>
   <b:section id='marquee' showaddelement='yes'/>
   <b:section id='services' showaddelement='yes'/>
@@ -219,6 +293,25 @@ function bi(el, text){
     s.lang = l; s.textContent = b[l]; el.appendChild(s);
   });
 }
+/* "FR | AR" text inside every .bi under root becomes one span per language; no bar = left alone */
+function applyBi(root){
+  [].slice.call((root || document).querySelectorAll('.bi:not([data-done])')).forEach(function(el){
+    el.setAttribute('data-done', '');
+    if (el.textContent.indexOf(' | ') > -1) bi(el, el.textContent);
+  });
+}
+/* switch language: html lang/dir, placeholders, pressed button + sliding thumb; keep = remember the choice */
+function setLang(l, keep){
+  var h = document.documentElement, t = document.querySelector('#lang .thumb');
+  h.lang = l; h.dir = l == 'ar' ? 'rtl' : 'ltr';
+  if (keep) try { localStorage['atlas-lang'] = l; } catch (e) {}
+  [].forEach.call(document.querySelectorAll('[data-ar]'), function(el){ el.placeholder = el.getAttribute('data-' + l); });
+  [].forEach.call(document.querySelectorAll('#lang button'), function(b){
+    var on = b.getAttribute('data-lang') == l;
+    b.setAttribute('aria-pressed', on);
+    if (on && t) { t.style.left = b.offsetLeft + 'px'; t.style.width = b.offsetWidth + 'px'; }
+  });
+}
 function init(){
   var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
   var src = document.querySelector('[data-wa-src]'), wa = src ? src.getAttribute('data-wa-src') : '';
@@ -230,6 +323,13 @@ function init(){
     bi(el, t);
   });
   if (ld) try { ld.textContent = JSON.stringify(buildLd(JSON.parse(ld.textContent), items)); } catch (e) {}
+  applyBi();
+  $$('#lang button').forEach(function(b){ b.onclick = function(){ setLang(b.getAttribute('data-lang'), true); }; });
+  setLang(document.documentElement.lang);
+  if (document.fonts) document.fonts.ready.then(function(){ setLang(document.documentElement.lang); });
+  var top = document.getElementById('top');
+  var solid = function(){ top.classList.toggle('solid', window.scrollY > window.innerHeight * .7); };
+  addEventListener('scroll', solid, {passive: true}); solid();
   $$('[data-bi]').forEach(function(el){ bi(el, el.textContent.trim()); });
   $$('[data-year]').forEach(function(el){ el.textContent = '\u00a9 ' + new Date().getFullYear(); });
   var f = document.getElementById('wa-form');
@@ -243,7 +343,7 @@ function init(){
   }
 }
 if (typeof document !== 'undefined') init();
-if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd};
+if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd, setLang: setLang, applyBi: applyBi};
 //]]>
 </script>
 </body>
