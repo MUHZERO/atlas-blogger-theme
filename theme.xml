@@ -652,12 +652,12 @@ function applyBi(root){
     if (el.textContent.indexOf(' | ') > -1) bi(el, el.textContent);
   });
 }
-/* switch language: html lang/dir, placeholders + aria-labels, pressed button + sliding thumb; keep = remember the choice */
+/* switch language: html lang/dir, placeholders (range: aria-label), pressed button + sliding thumb; keep = remember the choice */
 function setLang(l, keep){
   var h = document.documentElement, t = document.querySelector('#lang .thumb');
   h.lang = l; h.dir = l == 'ar' ? 'rtl' : 'ltr';
   if (keep) try { localStorage['atlas-lang'] = l; } catch (e) {}
-  [].forEach.call(document.querySelectorAll('[data-ar]'), function(el){ var v = el.getAttribute('data-' + l); el.placeholder = v; el.setAttribute('aria-label', v); });
+  [].forEach.call(document.querySelectorAll('[data-ar]'), function(el){ var v = el.getAttribute('data-' + l); if (el.type == 'range') el.setAttribute('aria-label', v); else el.placeholder = v; });
   [].forEach.call(document.querySelectorAll('#lang button'), function(b){
     var on = b.getAttribute('data-lang') == l;
     b.setAttribute('aria-pressed', on);
@@ -670,6 +670,10 @@ function nextIndex(i, n, step){ return (i + step + n) % n; }
 function scrollSign(dir){ return dir == 'rtl' ? -1 : 1; }
 function init(){
   var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
+  /* reveal first, so a failure further down can't leave content hidden; without IntersectionObserver everything shows at once */
+  var io = window.IntersectionObserver && new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold: .15});
+  var reveal = function(el){ io ? io.observe(el) : el.classList.add('in'); };
+  $$('.rv').forEach(reveal);
   var src = document.querySelector('[data-wa-src]'), wa = src ? src.getAttribute('data-wa-src') : '';
   if (wa) $$('[data-wa]').forEach(function(a){ a.href = wa; a.target = '_blank'; a.rel = 'noopener'; });
   var items = {}, ld = document.getElementById('atlas-ld');
@@ -702,24 +706,20 @@ function init(){
       window.open(waUrl(wa, ['Nom: ' + v('name'), 'Tel: ' + v('phone'), v('msg')]), '_blank', 'noopener');
     });
   }
-  /* hero: dots and timer only for 2+ slides; no autoplay with reduced motion; hover or focus pauses */
-  var sl = $$('.slide'), n = sl.length, dots = $$('.hero .dots')[0], cur = 0, hold = 0, tm;
+  /* hero: dots for 2+ slides. The active dot's 6s bar animation drives autoplay: CSS pauses it while the hero
+     is hovered or holds focus, and reduced motion removes it, so the slide advances only when the bar ends */
+  var sl = $$('.slide'), n = sl.length, dots = $$('.hero .dots')[0], cur = 0;
   var show = function(i){
     cur = i;
     sl.forEach(function(s, k){ s.classList.toggle('on', k == i); });
     if (n < 2 || !dots) return;
     [].forEach.call(dots.children, function(d, k){ d.className = ''; if (k == i) { void d.offsetWidth; d.className = 'on'; } });
     $$('.hero .counter')[0].textContent = '0' + (i + 1) + ' / 0' + n;
-    clearTimeout(tm);
-    if (!hold && !matchMedia('(prefers-reduced-motion:reduce)').matches) tm = setTimeout(function(){ show(nextIndex(i, n, 1)); }, 6000);
   };
   if (dots && n > 1) {
     sl.forEach(function(s, k){ dots.innerHTML += '<button type="button" aria-label="' + (k + 1) + '"></button>'; });
     dots.onclick = function(e){ var k = [].indexOf.call(dots.children, e.target); if (k > -1) show(k); };
-    var hero = $$('.hero')[0];
-    ['mouseenter', 'focusin'].forEach(function(t){ hero.addEventListener(t, function(){ hold = 1; clearTimeout(tm); }); });
-    /* resume restarts the current slide's bar and timer together */
-    ['mouseleave', 'focusout'].forEach(function(t){ hero.addEventListener(t, function(){ hold = 0; show(cur); }); });
+    dots.addEventListener('animationend', function(){ show(nextIndex(cur, n, 1)); });
   }
   show(0);
   /* marquee: four copies so one half always covers wide screens; only the copies are hidden from screen readers */
@@ -732,7 +732,7 @@ function init(){
   $$('.tile[data-icon]').forEach(function(t, k){
     var i = t.getAttribute('data-icon');
     t.insertAdjacentHTML('afterbegin', '<div class="ico"><svg><use href="#i-' + (/^(paint|tile|drop|bolt|shield|clock|chat|home)$/.test(i) ? i : 'home') + '"/></svg></div>');
-    t.className += ' rv';
+    t.className += ' rv'; reveal(t);
     t.style.setProperty('--d', k % 2 ? '.16s' : '.08s');
   });
   /* before / after: the range sets --pos on Image7's box */
@@ -741,9 +741,6 @@ function init(){
   /* projects carousel: one card per click, mirrored under rtl; cards show the year of their datetime */
   $$('.arrows button').forEach(function(b){ b.onclick = function(){ var t = $$('.track')[0]; t.scrollBy({left: (t.firstElementChild.offsetWidth + 20) * b.getAttribute('data-dir') * scrollSign(document.documentElement.dir)}); }; });
   $$('time.meta').forEach(function(t){ var y = (t.getAttribute('datetime') || '').slice(0, 4); if (y) t.textContent = y; });
-  /* reveal on entering the viewport; without IntersectionObserver everything shows at once (kept last in init) */
-  var io = window.IntersectionObserver && new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold: .15});
-  $$('.rv').forEach(function(el){ io ? io.observe(el) : el.classList.add('in'); });
 }
 if (typeof document !== 'undefined') init();
 if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd, setLang: setLang, applyBi: applyBi, nextIndex: nextIndex, scrollSign: scrollSign};
