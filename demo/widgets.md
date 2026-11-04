@@ -5,33 +5,34 @@ Collez les champs ci-dessous tels quels dans les widgets correspondants.
 Utilisez un seul label par article.
 Pour les titres, légendes et noms, gardez le format `FR | AR`.
 
-## Header1
+## Header1 (header)
 Type: Header
 Title: `Atlas | أطلس`
 Description: `Rénovation | للترميم`
 
-## LinkList-nav
+## LinkList2 (navigation)
 Type: LinkList
 - `Services | الخدمات` → `#services`
 - `Réalisations | أعمالنا` → `#projets`
+- `Équipe | الفريق` → `#equipe`
 - `Contact | اتصل بنا` → `#contact`
 
-## Image-hero-1
+## Image2 (hero 1)
 Type: Image
 Title: `Rénovation clé en main. | ترميم شقتك من البداية للتسليم.`
 Caption: `Devis gratuit sous 48 h. | عرض سعر مجاني خلال 48 ساعة.`
 Link: `#contact`
 Image source: `https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1800&fit=crop`
 
-## Image-hero-2
+## Image3 (hero 2)
 Type: Image
 Image source: `https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&fit=crop`
 
-## Image-hero-3
+## Image4 (hero 3)
 Type: Image
 Image source: `https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1800&fit=crop`
 
-## LinkList-marquee
+## LinkList3 (marquee)
 Type: LinkList
 - `Peinture | الصباغة` → `#services`
 - `Carrelage | الزليج` → `#services`
@@ -40,13 +41,13 @@ Type: LinkList
 - `Cuisines | المطابخ` → `#services`
 - `Salles de bain | الحمامات` → `#services`
 
-## Image-service-main
+## Image5 (service main)
 Type: Image
 Title: `Rénovation complète | ترميم شامل`
 Caption: `Du gros œuvre à la finition | من الأساس حتى التشطيب`
 Image source: `https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1000&fit=crop`
 
-## HTML-services
+## HTML1 (services)
 Type: HTML
 ```html
 <div class="tile" data-icon="paint"><h3><span lang="fr">Peinture</span><span lang="ar">الصباغة</span></h3><p><span lang="fr">Intérieur et façade</span><span lang="ar">داخلية وواجهات</span></p></div>
@@ -58,24 +59,24 @@ Type: HTML
 <div class="tile" data-icon="chat"><h3><span lang="fr">Suivi WhatsApp</span><span lang="ar">متابعة بواتساب</span></h3><p><span lang="fr">Photos chaque semaine</span><span lang="ar">صور كل أسبوع</span></p></div>
 ```
 
-## Image-before
+## Image6 (before)
 Type: Image
 Title: `Avant | قبل`
 Image source: `TODO: a real unrenovated-room photo (Unsplash, free licence) — must differ from the after photo`
 
-## Image-after
+## Image7 (after)
 Type: Image
 Title: `Après | بعد`
 Image source: `https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1200&fit=crop`
 
-## LinkList-steps
+## LinkList4 (steps)
 Type: LinkList
 - `Visite gratuite | زيارة مجانية` → `#contact`
 - `Devis détaillé | عرض سعر مفصل` → `#contact`
 - `Travaux | الأشغال` → `#contact`
 - `Livraison | التسليم` → `#contact`
 
-## HTML-numbers
+## HTML2 (numbers)
 Type: HTML
 ```html
 <div><b data-count="12" data-suffix="">0</b><span lang="fr">ans d'expérience</span><span lang="ar">سنة خبرة</span></div>
@@ -84,7 +85,7 @@ Type: HTML
 <div><b data-count="98" data-suffix="%">0</b><span lang="fr">clients satisfaits</span><span lang="ar">عملاء راضون</span></div>
 ```
 
-## HTML-reviews
+## HTML3 (reviews)
 Type: HTML
 ```html
 <div class="review"><div class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div><blockquote><span lang="fr">« Travail propre, délais tenus. Je recommande. »</span><span lang="ar">«عمل نظيف واحترام للمواعيد. أنصح بهم.»</span></blockquote><div class="who"><div><b><span lang="fr">Samira B.</span><span lang="ar">سميرة ب.</span></b><small><span lang="fr">Maârif</span><span lang="ar">المعاريف</span></small></div></div></div>
@@ -92,37 +93,38 @@ Type: HTML
 <div class="review"><div class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div><blockquote><span lang="fr">« Notre salle de bain est méconnaissable. »</span><span lang="ar">«الحمام ديالنا تبدل كامل.»</span></blockquote><div class="who"><div><b><span lang="fr">Leila M.</span><span lang="ar">ليلى م.</span></b><small><span lang="fr">Gauthier</span><span lang="ar">غوتييه</span></small></div></div></div>
 ```
 
-## Image-team-1
+## Image8 (team 1)
 Type: Image
 Title: `Youssef A. | يوسف أ.`
 Caption: `Fondateur | المؤسس`
 Image source: `https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=660&fit=crop`
 
-## Image-team-2
+## Image9 (team 2)
 Type: Image
 Title: `Nadia K. | نادية ك.`
 Caption: `Architecte | مهندسة معمارية`
 Image source: `https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=660&fit=crop`
 
-## Image-team-3
+## Image10 (team 3)
 Type: Image
 Title: `Hamid R. | حامد ر.`
 Caption: `Chef de chantier | رئيس الورش`
 Image source: `https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&h=660&fit=crop`
 
-## Image-team-4
+## Image11 (team 4)
 Type: Image
 Title: `Omar L. | عمر ل.`
 Caption: `Électricien | كهربائي`
 Image source: `https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=660&fit=crop`
 
-## LinkList-contact
+## LinkList1 (contact)
+The target decides the role: `wa.me` = WhatsApp, `tel:` = phone, `#hours` = hours, Google Maps = address.
 Type: LinkList
-- `whatsapp` → `https://wa.me/212600000000`
-- `phone` → `tel:+212522000000`
-- `hours: Lun–Sam 9h–18h | الإثنين–السبت 9–18` → `#`
-- `address: Maârif, Casablanca | المعاريف، الدار البيضاء` → `https://www.google.com/maps/search/?api=1&query=Maarif+Casablanca`
+- `WhatsApp` → `https://wa.me/212600000000`
+- `+212 5 22 00 00 00` → `tel:+212522000000`
+- `Lun–Sam 9h–18h | الإثنين–السبت 9–18` → `#hours`
+- `Maârif, Casablanca | المعاريف، الدار البيضاء` → `https://www.google.com/maps/search/?api=1&query=Maarif+Casablanca`
 
-## Image-contact-bg
+## Image1 (contact background)
 Type: Image
 Image source: `https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&fit=crop`
