@@ -617,7 +617,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </b:includable>
     </b:widget>
   </b:section>
-  <!-- HTML2: one <div><b data-count="340" data-suffix="+">0</b><span lang="fr">..</span><span lang="ar">..</span></div> per figure -->
+  <!-- HTML2: write the FINAL value as the text (shown if JS fails); the count-up still runs from data-count: one <div><b data-count="340" data-suffix="+">340+</b><span lang="fr">..</span><span lang="ar">..</span></div> per figure -->
   <div class='wrap blk'>
   <b:section class='nums' id='numbers' showaddelement='yes'>
     <b:widget id='HTML2' locked='false' title='Chiffres' type='HTML' version='2' visible='true'>
@@ -888,9 +888,9 @@ function init(){
     rt.insertAdjacentHTML('afterend', '<div class="rdots">' + [].map.call(rt.children, function(c, k){ return '<button type="button" aria-label="' + (k + 1) + '"></button>'; }).join('') + '</div>');
     rt.nextSibling.onclick = function(e){ var k = [].indexOf.call(e.currentTarget.children, e.target); if (k > -1) go(k); };
     rt.addEventListener('scroll', mark, {passive: true});
-    rt.addEventListener('touchstart', function(){ touched = Date.now(); }, {passive: true});
+    box.onpointerdown = function(){ touched = Date.now(); };
     mark();
-    if (!rm) setInterval(function(){ if (!box.matches(':hover') && !box.contains(document.activeElement) && Date.now() - touched > 8000) go(nextIndex(at(), rn, 1)); }, 5000);
+    if (!rm) setInterval(function(){ if (!(matchMedia('(hover:hover)').matches && box.matches(':hover')) && !box.contains(document.activeElement) && Date.now() - touched > 8e3) go(nextIndex(at(), rn, 1)); }, 5e3);
   }
   /* before / after: the range sets --pos on Image7's box */
   var r = $$('.ba input')[0];

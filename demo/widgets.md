@@ -79,10 +79,10 @@ Type: LinkList
 ## HTML2 (numbers)
 Type: HTML
 ```html
-<div><b data-count="12" data-suffix="">0</b><span lang="fr">ans d'expérience</span><span lang="ar">سنة خبرة</span></div>
-<div><b data-count="340" data-suffix="+">0</b><span lang="fr">chantiers livrés</span><span lang="ar">مشروع منجز</span></div>
-<div><b data-count="18" data-suffix="">0</b><span lang="fr">artisans</span><span lang="ar">حرفي</span></div>
-<div><b data-count="98" data-suffix="%">0</b><span lang="fr">clients satisfaits</span><span lang="ar">عملاء راضون</span></div>
+<div><b data-count="12" data-suffix="">12</b><span lang="fr">ans d'expérience</span><span lang="ar">سنة خبرة</span></div>
+<div><b data-count="340" data-suffix="+">340+</b><span lang="fr">chantiers livrés</span><span lang="ar">مشروع منجز</span></div>
+<div><b data-count="18" data-suffix="">18</b><span lang="fr">artisans</span><span lang="ar">حرفي</span></div>
+<div><b data-count="98" data-suffix="%">98%</b><span lang="fr">clients satisfaits</span><span lang="ar">عملاء راضون</span></div>
 ```
 
 ## HTML3 (reviews)
