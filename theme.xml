@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<html b:css='false' b:js='false' b:layoutsVersion='3' b:defaultwidgetversion='2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr' expr:data-default='data:blog.locale'>
+<html b:css='false' b:js='false' b:layoutsVersion='3' b:defaultwidgetversion='2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr' expr:data-default='data:blog.locale' expr:dir='data:blog.locale contains &quot;ar&quot; ? &quot;rtl&quot; : &quot;ltr&quot;' expr:lang='data:blog.locale contains &quot;ar&quot; ? &quot;ar&quot; : &quot;fr&quot;'>
 <head>
 <meta charset='utf-8'/>
 <meta content='width=device-width, initial-scale=1' name='viewport'/>
-<!-- sets lang/dir/js before the first paint; the stored choice wins over the blog locale -->
+<!-- the server sets lang/dir from the blog locale (no-JS fallback); this script applies the stored choice and adds .js before the first paint -->
 <script id='atlas-head'>
 //<![CDATA[
 function pickLang(s,d){return s=='fr'||s=='ar'?s:/^ar/.test(d)?'ar':'fr'}
@@ -20,10 +20,12 @@ if(typeof module!='undefined')module.exports={pickLang};
   <meta expr:content='data:blog.metaDescription' name='description'/><meta expr:content='data:blog.metaDescription' property='og:description'/>
 </b:if>
 <link expr:href='data:view.url.canonical' rel='canonical'/>
+<link expr:href='data:blog.blogspotFaviconUrl' rel='icon' type='image/x-icon'/>
+<data:blog.feedLinks/>
 <!-- Open Graph and Twitter card; og:image only on posts (a widget image is not readable from the head) -->
 <meta expr:content='data:view.url.canonical' property='og:url'/>
 <meta expr:content='data:blog.title' property='og:site_name'/>
-<meta expr:content='data:blog.locale' property='og:locale'/>
+<meta expr:content='data:blog.localeUnderscoreDelimited' property='og:locale'/>
 <b:if cond='data:view.isSingleItem'>
   <meta expr:content='data:blog.pageName + &quot; — &quot; + data:blog.title' property='og:title'/>
   <meta content='article' property='og:type'/>
@@ -38,30 +40,6 @@ if(typeof module!='undefined')module.exports={pickLang};
 <link href='https://fonts.googleapis.com' rel='preconnect'/>
 <link crossorigin='' href='https://fonts.gstatic.com' rel='preconnect'/>
 <link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>
-<b:defaultmarkups>
-<b:defaultmarkup type='Common'>
-<b:includable id='icons'>
-<svg style='display:none'>
-  <symbol id='i-chat' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M7.9 20A9 9 0 1 0 4 16.1L2 22Z'/></symbol>
-  <symbol id='i-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M13 6l6 6-6 6'/></symbol>
-  <symbol id='i-left' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m15 18-6-6 6-6'/></symbol>
-  <symbol id='i-right' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></symbol>
-  <symbol id='i-lr' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m8 7-5 5 5 5M16 7l5 5-5 5'/></symbol>
-  <symbol id='i-home' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 10.5 12 3l9 7.5V21H3z'/><path d='M9 21v-7h6v7'/></symbol>
-  <symbol id='i-paint' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='16' height='6' rx='2'/><path d='M19 6h2v5l-9 2v3'/><rect x='10' y='16' width='4' height='6' rx='1'/></symbol>
-  <symbol id='i-tile' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='7' height='7'/><rect x='14' y='3' width='7' height='7'/><rect x='3' y='14' width='7' height='7'/><rect x='14' y='14' width='7' height='7'/></symbol>
-  <symbol id='i-drop' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 2.7s7 6.6 7 11.3a7 7 0 0 1-14 0c0-4.7 7-11.3 7-11.3Z'/></symbol>
-  <symbol id='i-bolt' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 2 3 14h9l-1 8 10-12h-9z'/></symbol>
-  <symbol id='i-shield' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z'/><path d='m9 12 2 2 4-4'/></symbol>
-  <symbol id='i-phone' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z'/></symbol>
-  <symbol id='i-pin' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'/><circle cx='12' cy='10' r='3'/></symbol>
-  <symbol id='i-clock' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M12 6v6l4 2'/></symbol>
-  <symbol id='i-star' viewBox='0 0 24 24'><path d='m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z'/></symbol>
-  <symbol id='i-globe' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20'/></symbol>
-</svg>
-</b:includable>
-</b:defaultmarkup>
-</b:defaultmarkups>
 <b:skin><![CDATA[
 /* Atlas theme: base styles. Component CSS is added by later tasks.
    Theme Designer colours:
@@ -81,7 +59,8 @@ body{font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;background:var(--bg
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer}
-svg{width:20px;height:20px;flex:none}
+/* theme icons default size; owner content in .post-body keeps its own (zero specificity) */
+:where(svg:not(.post-body svg)){width:20px;height:20px;flex:none}
 [hidden]{display:none!important}
 html[dir=rtl] .flip{transform:scaleX(-1)}
 
@@ -105,9 +84,10 @@ html[dir=rtl] .btn:hover svg.flip{transform:scaleX(-1) translateX(4px)}
 .js .rv{opacity:0;transform:translateY(28px)}
 .js .rv.in{opacity:1;transform:none}
 
-/* header: transparent over the hero, solid after scrolling; Header1 and LinkList2 sit in the bar */
-header{position:fixed;inset:0 0 auto;z-index:30;color:#fff;transition:background .4s,color .4s,box-shadow .4s}
-header.solid,.inner header{background:rgba(247,245,241,.9);backdrop-filter:blur(12px);color:var(--ink);box-shadow:0 1px 0 var(--line)}
+/* header: solid by default; transparent over the hero only on the home page with JS (init() adds .solid after scrolling).
+   Header1 and LinkList2 sit in the bar */
+#top{position:fixed;inset:0 0 auto;z-index:30;background-color:rgba(247,245,241,.9);backdrop-filter:blur(12px);color:var(--ink);box-shadow:0 1px 0 var(--line);transition:background-color .4s,color .4s,box-shadow .4s}
+.js .home #top:not(.solid){background-color:transparent;backdrop-filter:none;color:#fff;box-shadow:0 1px 0 transparent}
 .bar{display:flex;align-items:center;gap:28px;height:72px}
 .bar #header,.bar .widget{display:contents}
 .logo{display:flex;align-items:center;gap:12px}
@@ -120,20 +100,20 @@ header.solid,.inner header{background:rgba(247,245,241,.9);backdrop-filter:blur(
 html[lang=ar] .logo .name small{letter-spacing:0;font-size:12px}
 /* views without a hero: the bar is always solid and the content starts below it */
 .inner #main{padding-top:72px}
-nav{display:flex;gap:26px;margin-inline-start:auto;font-size:14px}
-nav a{opacity:.8;position:relative;padding:4px 0}
-nav a::after{content:"";position:absolute;inset:auto 0 0;height:1.5px;background:currentColor;transform:scaleX(0);transition:transform .35s var(--ease)}
-nav a:hover{opacity:1}
-nav a:hover::after{transform:scaleX(1)}
+.bar nav{display:flex;gap:26px;margin-inline-start:auto;font-size:14px}
+.bar nav a{opacity:.8;position:relative;padding:4px 0}
+.bar nav a::after{content:"";position:absolute;inset:auto 0 0;height:1.5px;background:currentColor;transform:scaleX(0);transition:transform .35s var(--ease)}
+.bar nav a:hover{opacity:1}
+.bar nav a:hover::after{transform:scaleX(1)}
 /* language switch: segmented pill, the thumb slides to the active language */
-.lang{position:relative;display:flex;align-items:center;height:40px;padding:3px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);direction:ltr}
-header.solid .lang,.inner .lang{background:var(--surface);border-color:var(--line)}
+.lang{position:relative;display:flex;align-items:center;height:40px;padding:3px;border-radius:999px;background:var(--surface);border:1px solid var(--line);backdrop-filter:blur(8px);direction:ltr}
+.js .home #top:not(.solid) .lang{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25)}
 .lang .globe{width:16px;height:16px;margin:0 6px 0 8px;opacity:.75}
 .lang button{position:relative;z-index:1;height:32px;min-width:40px;padding:0 10px;border:0;border-radius:999px;background:none;font-size:13px;font-weight:600;opacity:.75;transition:color .35s,opacity .35s}
-.lang button[aria-pressed=true]{opacity:1;color:var(--ink)}
-.lang .thumb{position:absolute;top:3px;bottom:3px;border-radius:999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:left .35s var(--ease),width .35s var(--ease)}
-header.solid .lang .thumb,.inner .lang .thumb{background:var(--accent)}
-header.solid .lang button[aria-pressed=true],.inner .lang button[aria-pressed=true]{color:#fff}
+.lang button[aria-pressed=true]{opacity:1;color:#fff}
+.lang .thumb{position:absolute;top:3px;bottom:3px;border-radius:999px;background:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.15);transition:left .35s var(--ease),width .35s var(--ease)}
+.js .home #top:not(.solid) .lang .thumb{background:#fff}
+.js .home #top:not(.solid) .lang button[aria-pressed=true]{color:var(--ink)}
 .bar .btn{height:42px;font-size:14px}
 
 /* home-only sections: their widgets render nothing elsewhere, the boxes go too */
@@ -273,7 +253,9 @@ html[lang=ar] .list h1,html[lang=ar] .post h1,html[lang=ar] .nf h1{line-height:1
 
 /* numbers, reviews, team: each in a .blk wrapper (home only); HTML2 / HTML3 / Image8-11 fill the sections */
 .blk{margin-bottom:96px}
-/* numbers: HTML2 = one <div><b data-count data-suffix>0</b><span>label</span></div> per figure; init() counts up when it enters view */
+/* no figure, no review or no member: the whole block (heading, border, dark box) goes */
+.blk:not(:has(.nums b,.review,.member)){display:none}
+/* numbers: HTML2 = one <div><b data-count data-suffix>final value</b><span>label</span></div> per figure (the owner writes the final value); init() counts up when it enters view */
 .nums{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;border-block:1px solid var(--line);padding:40px 0}
 .nums .widget{display:contents}
 .nums b{display:block;font-size:clamp(34px,5vw,56px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;direction:ltr}
@@ -322,17 +304,17 @@ html[dir=rtl] .cta-band::before{background:linear-gradient(-100deg,rgba(15,40,32
 .cta-band .LinkList{padding:72px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em}
 .eyebrow::before{content:"";width:18px;height:2px;background:currentColor}
-h2{font-size:clamp(28px,4.4vw,44px);line-height:1.15;font-weight:700;margin:10px 0 40px;letter-spacing:-.01em}
-html[lang=ar] h2{line-height:1.35;letter-spacing:0}
+:where(h2:not(.post-body h2)){font-size:clamp(28px,4.4vw,44px);line-height:1.15;font-weight:700;margin:10px 0 40px;letter-spacing:-.01em}
+html[lang=ar] :where(h2:not(.post-body h2)){line-height:1.35;letter-spacing:0}
 .cta-band h2{margin:10px 0 16px}
 .cta-band .eyebrow{color:var(--accent-2)}
 .cta-band .rows{display:grid;gap:10px;margin-top:28px}
 .cta-band .r{display:flex;align-items:center;gap:12px;font-size:15px;opacity:.9}
 .ltr{direction:ltr;unicode-bidi:isolate}
-form{background:var(--surface);color:var(--ink);border-radius:20px;padding:24px;display:grid;gap:12px}
-input,textarea{font:inherit;font-size:15px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:var(--bg);color:var(--ink);width:100%;transition:border-color .3s,background .3s}
-input:focus,textarea:focus{outline:0;border-color:var(--accent);background:#fff}
-textarea{min-height:100px;resize:vertical}
+#wa-form{background:var(--surface);color:var(--ink);border-radius:20px;padding:24px;display:grid;gap:12px}
+#wa-form input,#wa-form textarea{font:inherit;font-size:15px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:var(--bg);color:var(--ink);width:100%;transition:border-color .3s,background .3s}
+#wa-form input:focus,#wa-form textarea:focus{outline:0;border-color:var(--accent);background:#fff}
+#wa-form textarea{min-height:100px;resize:vertical}
 
 footer{padding:40px 0;font-size:13px;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -343,7 +325,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 @keyframes ping{to{transform:scale(1.6);opacity:0}}
 .fab svg{width:26px;height:26px}
 @media (max-width:960px){
-  nav,.bar .btn{display:none}
+  .bar nav,.bar .btn{display:none}
   .lang{margin-inline-start:auto}
   .cta-band .LinkList{grid-template-columns:1fr;padding:48px 24px}
   .fab{display:grid}
@@ -357,7 +339,25 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 ]]></b:skin>
 </head>
 <body expr:class='data:view.isHomepage ? &quot;home&quot; : &quot;inner&quot;'>
-<b:include name='icons'/>
+<!-- icon sprite: <svg><use href='#i-...'/></svg> -->
+<svg aria-hidden='true' style='display:none'>
+  <symbol id='i-chat' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M7.9 20A9 9 0 1 0 4 16.1L2 22Z'/></symbol>
+  <symbol id='i-arrow' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M13 6l6 6-6 6'/></symbol>
+  <symbol id='i-left' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m15 18-6-6 6-6'/></symbol>
+  <symbol id='i-right' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></symbol>
+  <symbol id='i-lr' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m8 7-5 5 5 5M16 7l5 5-5 5'/></symbol>
+  <symbol id='i-home' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 10.5 12 3l9 7.5V21H3z'/><path d='M9 21v-7h6v7'/></symbol>
+  <symbol id='i-paint' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='16' height='6' rx='2'/><path d='M19 6h2v5l-9 2v3'/><rect x='10' y='16' width='4' height='6' rx='1'/></symbol>
+  <symbol id='i-tile' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='7' height='7'/><rect x='14' y='3' width='7' height='7'/><rect x='3' y='14' width='7' height='7'/><rect x='14' y='14' width='7' height='7'/></symbol>
+  <symbol id='i-drop' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 2.7s7 6.6 7 11.3a7 7 0 0 1-14 0c0-4.7 7-11.3 7-11.3Z'/></symbol>
+  <symbol id='i-bolt' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 2 3 14h9l-1 8 10-12h-9z'/></symbol>
+  <symbol id='i-shield' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z'/><path d='m9 12 2 2 4-4'/></symbol>
+  <symbol id='i-phone' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z'/></symbol>
+  <symbol id='i-pin' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'/><circle cx='12' cy='10' r='3'/></symbol>
+  <symbol id='i-clock' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M12 6v6l4 2'/></symbol>
+  <symbol id='i-star' viewBox='0 0 24 24'><path d='m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z'/></symbol>
+  <symbol id='i-globe' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20'/></symbol>
+</svg>
 
 <header id='top'>
   <div class='wrap bar'>
@@ -801,103 +801,152 @@ function nextIndex(i, n, step){ return (i + step + n) % n; }
 /* carousel scrollLeft runs negative under rtl */
 function scrollSign(dir){ return dir == 'rtl' ? -1 : 1; }
 function init(){
-  var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
+  var all = function(selector){ return [].slice.call(document.querySelectorAll(selector)); };
+  var reducedMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
   /* reveal first, so a later failure can't leave content hidden; no IntersectionObserver = all shown */
-  var io = window.IntersectionObserver && new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { appear(e.target); io.unobserve(e.target); } }); }, {threshold: .15});
-  /* count-up on reveal; final value at once with reduced motion or no observer */
-  var rm = matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var count = function(b){
-    var e = +b.getAttribute('data-count'), s = b.getAttribute('data-suffix') || '', t0 = performance.now();
-    var tick = function(t){
-      var p = rm || !io ? 1 : Math.min((t - t0) / 1600, 1);
-      b.textContent = Math.round(e * (1 - Math.pow(1 - p, 3))) + s;
-      if (p < 1) requestAnimationFrame(tick);
+  var observer = window.IntersectionObserver && new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) { appear(entry.target); observer.unobserve(entry.target); }
+    });
+  }, {threshold: .15});
+  /* count-up on reveal (ease-out cubic over 1.6s); final value at once with reduced motion or no observer */
+  var countUp = function(el){
+    var target = +el.getAttribute('data-count'), suffix = el.getAttribute('data-suffix') || '', start = performance.now();
+    var tick = function(now){
+      var progress = reducedMotion || !observer ? 1 : Math.min((now - start) / 1600, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - progress, 3))) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
     };
-    tick(t0);
+    tick(start);
   };
-  var appear = function(el){ el.classList.add('in'); [].forEach.call(el.querySelectorAll('[data-count]'), count); };
-  var reveal = function(el){ io ? io.observe(el) : appear(el); };
-  $$('.rv').forEach(reveal);
-  var src = document.querySelector('[data-wa-src]'), wa = src ? src.getAttribute('data-wa-src') : '';
-  if (wa) $$('[data-wa]').forEach(function(a){ a.href = wa; a.target = '_blank'; a.rel = 'noopener'; });
-  var items = {}, ld = document.getElementById('atlas-ld');
-  $$('[data-key]').forEach(function(el){
-    var t = el.textContent.trim();
-    items[el.getAttribute('data-key')] = t;
-    bi(el, t);
+  var appear = function(el){ el.classList.add('in'); [].forEach.call(el.querySelectorAll('[data-count]'), countUp); };
+  var reveal = function(el){ if (observer) observer.observe(el); else appear(el); };
+  all('.rv').forEach(reveal);
+
+  /* WhatsApp: the LinkList1 wa.me target goes on every [data-wa] link */
+  var waSource = document.querySelector('[data-wa-src]'), wa = waSource ? waSource.getAttribute('data-wa-src') : '';
+  if (wa) all('[data-wa]').forEach(function(a){ a.href = wa; a.target = '_blank'; a.rel = 'noopener'; });
+
+  /* contact rows: collect phone/address/hours for the JSON-LD, then split "FR | AR" */
+  var contactItems = {}, ldScript = document.getElementById('atlas-ld');
+  all('[data-key]').forEach(function(el){
+    var text = el.textContent.trim();
+    contactItems[el.getAttribute('data-key')] = text;
+    bi(el, text);
   });
-  if (ld) try { ld.textContent = JSON.stringify(buildLd(JSON.parse(ld.textContent), items)); } catch (e) {}
+  if (ldScript) try { ldScript.textContent = JSON.stringify(buildLd(JSON.parse(ldScript.textContent), contactItems)); } catch (e) {}
   applyBi();
-  $$('#lang button').forEach(function(b){ b.onclick = function(){ setLang(b.getAttribute('data-lang'), true); }; });
+
+  /* language switch */
+  all('#lang button').forEach(function(b){ b.onclick = function(){ setLang(b.getAttribute('data-lang'), true); }; });
   /* place the thumb without the slide-in: transition off, reflow, transition back on */
-  var place = function(){
-    var t = document.querySelector('#lang .thumb');
-    t.style.transition = 'none'; setLang(document.documentElement.lang); void t.offsetWidth; t.style.transition = '';
+  var placeThumb = function(){
+    var thumb = document.querySelector('#lang .thumb');
+    thumb.style.transition = 'none';
+    setLang(document.documentElement.lang);
+    void thumb.offsetWidth;
+    thumb.style.transition = '';
   };
-  place();
-  if (document.fonts) document.fonts.ready.then(place);
-  var top = document.getElementById('top');
-  var solid = function(){ top.classList.toggle('solid', window.scrollY > window.innerHeight * .7); };
-  addEventListener('scroll', solid, {passive: true}); solid();
-  $$('[data-bi]').forEach(function(el){ bi(el, el.textContent.trim()); });
-  $$('[data-year]').forEach(function(el){ el.textContent = '\u00a9 ' + new Date().getFullYear(); });
-  var f = document.getElementById('wa-form');
-  if (f && wa) {
-    f.hidden = false;
-    f.addEventListener('submit', function(e){
+  placeThumb();
+  if (document.fonts) document.fonts.ready.then(placeThumb);
+
+  /* header turns solid once the hero is mostly scrolled past */
+  var header = document.getElementById('top');
+  var updateHeader = function(){ header.classList.toggle('solid', window.scrollY > window.innerHeight * .7); };
+  addEventListener('scroll', updateHeader, {passive: true});
+  updateHeader();
+
+  /* footer: blog title "FR | AR" and the current year */
+  all('[data-bi]').forEach(function(el){ bi(el, el.textContent.trim()); });
+  all('[data-year]').forEach(function(el){ el.textContent = '© ' + new Date().getFullYear(); });
+
+  /* contact form: shown only with a WhatsApp target, sends a prefilled message */
+  var form = document.getElementById('wa-form');
+  if (form && wa) {
+    form.hidden = false;
+    form.addEventListener('submit', function(e){
       e.preventDefault();
-      var v = function(n){ return f.elements[n].value.trim(); };
-      window.open(waUrl(wa, ['Nom: ' + v('name'), 'Tel: ' + v('phone'), v('msg')]), '_blank', 'noopener');
+      var field = function(name){ return form.elements[name].value.trim(); };
+      window.open(waUrl(wa, ['Nom: ' + field('name'), 'Tel: ' + field('phone'), field('msg')]), '_blank', 'noopener');
     });
   }
+
   /* hero: dots for 2+ slides; the active dot's CSS bar animation ends = next slide (CSS pauses it on hover/focus) */
-  var sl = $$('.slide'), n = sl.length, dots = $$('.hero .dots')[0], cur = 0;
-  var show = function(i){
-    cur = i;
-    sl.forEach(function(s, k){ s.classList.toggle('on', k == i); });
-    if (n < 2 || !dots) return;
-    [].forEach.call(dots.children, function(d, k){ d.className = ''; if (k == i) { void d.offsetWidth; d.className = 'on'; } });
-    $$('.hero .counter')[0].textContent = '0' + (i + 1) + ' / 0' + n;
+  var slides = all('.slide'), slideCount = slides.length, dots = all('.hero .dots')[0], current = 0;
+  var showSlide = function(i){
+    current = i;
+    slides.forEach(function(slide, k){ slide.classList.toggle('on', k == i); });
+    if (slideCount < 2 || !dots) return;
+    /* reflow between removing and re-adding .on restarts the bar animation */
+    [].forEach.call(dots.children, function(dot, k){ dot.className = ''; if (k == i) { void dot.offsetWidth; dot.className = 'on'; } });
+    all('.hero .counter')[0].textContent = '0' + (i + 1) + ' / 0' + slideCount;
   };
-  if (dots && n > 1) {
-    sl.forEach(function(s, k){ dots.innerHTML += '<button type="button" aria-label="' + (k + 1) + '"></button>'; });
-    dots.onclick = function(e){ var k = [].indexOf.call(dots.children, e.target); if (k > -1) show(k); };
-    dots.addEventListener('animationend', function(){ show(nextIndex(cur, n, 1)); });
+  if (dots && slideCount > 1) {
+    slides.forEach(function(slide, k){ dots.innerHTML += '<button type="button" aria-label="' + (k + 1) + '"></button>'; });
+    dots.onclick = function(e){ var k = [].indexOf.call(dots.children, e.target); if (k > -1) showSlide(k); };
+    dots.addEventListener('animationend', function(){ showSlide(nextIndex(current, slideCount, 1)); });
   }
-  show(0);
+  showSlide(0);
+
   /* marquee: four copies, the extra ones hidden from screen readers */
-  $$('.mq-track').forEach(function(t){
-    var k = t.children.length, h = t.innerHTML;
-    t.innerHTML += h + h + h;
-    [].slice.call(t.children, k).forEach(function(c){ c.setAttribute('aria-hidden', 'true'); });
+  all('.mq-track').forEach(function(track){
+    var original = track.children.length, html = track.innerHTML;
+    track.innerHTML += html + html + html;
+    [].slice.call(track.children, original).forEach(function(copy){ copy.setAttribute('aria-hidden', 'true'); });
   });
+
   /* service tiles: icon from data-icon (unknown = home), staggered reveal */
-  $$('.tile[data-icon]').forEach(function(t, k){
-    var i = t.getAttribute('data-icon');
-    t.insertAdjacentHTML('afterbegin', '<div class="ico"><svg><use href="#i-' + (/^(paint|tile|drop|bolt|shield|clock|chat|home)$/.test(i) ? i : 'home') + '"/></svg></div>');
-    t.className += ' rv'; reveal(t);
-    t.style.setProperty('--d', k % 2 ? '.16s' : '.08s');
+  all('.tile[data-icon]').forEach(function(tile, k){
+    var icon = tile.getAttribute('data-icon');
+    if (!/^(paint|tile|drop|bolt|shield|clock|chat|home)$/.test(icon)) icon = 'home';
+    tile.insertAdjacentHTML('afterbegin', '<div class="ico"><svg><use href="#i-' + icon + '"/></svg></div>');
+    tile.className += ' rv';
+    reveal(tile);
+    tile.style.setProperty('--d', k % 2 ? '.16s' : '.08s');
   });
-  $$('.nums [data-count]').forEach(function(b, k){ var d = b.parentNode; d.className += ' rv'; d.style.setProperty('--d', k * .1 + 's'); reveal(d); });
-  /* reviews: dots follow the scroll; autoplay waits while hovered, focused or just touched */
-  var rt = $$('.rtrack')[0], rn = rt ? rt.children.length : 0, box = rt && rt.closest('.reviews'), touched = 0;
-  if (rn > 1) {
-    var at = function(){ return Math.round(Math.abs(rt.scrollLeft) / rt.offsetWidth); };
-    var go = function(i){ rt.scrollTo({left: rt.offsetWidth * i * scrollSign(document.documentElement.dir)}); };
-    var mark = function(){ var i = at(); [].forEach.call(rt.nextSibling.children, function(d, k){ d.className = k == i ? 'on' : ''; }); };
-    rt.insertAdjacentHTML('afterend', '<div class="rdots">' + [].map.call(rt.children, function(c, k){ return '<button type="button" aria-label="' + (k + 1) + '"></button>'; }).join('') + '</div>');
-    rt.nextSibling.onclick = function(e){ var k = [].indexOf.call(e.currentTarget.children, e.target); if (k > -1) go(k); };
-    rt.addEventListener('scroll', mark, {passive: true});
-    box.onpointerdown = function(){ touched = Date.now(); };
-    mark();
-    if (!rm) setInterval(function(){ if (!(matchMedia('(hover:hover)').matches && box.matches(':hover')) && !box.contains(document.activeElement) && Date.now() - touched > 8e3) go(nextIndex(at(), rn, 1)); }, 5e3);
+
+  /* numbers: each figure reveals in turn (the count-up runs in appear) */
+  all('.nums [data-count]').forEach(function(figure, k){
+    var box = figure.parentNode;
+    box.className += ' rv';
+    box.style.setProperty('--d', k * .1 + 's');
+    reveal(box);
+  });
+
+  /* reviews: dots follow the scroll; autoplay waits while hovered, focused or touched in the last 8s */
+  var reviewTrack = all('.rtrack')[0], reviewCount = reviewTrack ? reviewTrack.children.length : 0;
+  var reviewBox = reviewTrack && reviewTrack.closest('.reviews'), touchedAt = 0;
+  if (reviewCount > 1) {
+    var currentReview = function(){ return Math.round(Math.abs(reviewTrack.scrollLeft) / reviewTrack.offsetWidth); };
+    var goToReview = function(i){ reviewTrack.scrollTo({left: reviewTrack.offsetWidth * i * scrollSign(document.documentElement.dir)}); };
+    reviewTrack.insertAdjacentHTML('afterend', '<div class="rdots">' + [].map.call(reviewTrack.children, function(c, k){ return '<button type="button" aria-label="' + (k + 1) + '"></button>'; }).join('') + '</div>');
+    var reviewDots = reviewTrack.nextSibling;
+    var markDot = function(){ var i = currentReview(); [].forEach.call(reviewDots.children, function(dot, k){ dot.className = k == i ? 'on' : ''; }); };
+    reviewDots.onclick = function(e){ var k = [].indexOf.call(reviewDots.children, e.target); if (k > -1) goToReview(k); };
+    reviewTrack.addEventListener('scroll', markDot, {passive: true});
+    reviewBox.onpointerdown = function(){ touchedAt = Date.now(); };
+    markDot();
+    if (!reducedMotion) setInterval(function(){
+      var hovered = matchMedia('(hover:hover)').matches && reviewBox.matches(':hover');
+      var focused = reviewBox.contains(document.activeElement);
+      if (!hovered && !focused && Date.now() - touchedAt > 8e3) goToReview(nextIndex(currentReview(), reviewCount, 1));
+    }, 5e3);
   }
+
   /* before / after: the range sets --pos on Image7's box */
-  var r = $$('.ba input')[0];
-  if (r) r.oninput = function(){ r.parentNode.style.setProperty('--pos', r.value + '%'); };
-  /* projects carousel: one card per click, mirrored under rtl; cards show the year */
-  $$('.arrows button').forEach(function(b){ b.onclick = function(){ var t = $$('.track')[0]; t.scrollBy({left: (t.firstElementChild.offsetWidth + 20) * b.getAttribute('data-dir') * scrollSign(document.documentElement.dir)}); }; });
-  $$('time.meta').forEach(function(t){ var y = (t.getAttribute('datetime') || '').slice(0, 4); if (y) t.textContent = y; });
+  var range = all('.ba input')[0];
+  if (range) range.oninput = function(){ range.parentNode.style.setProperty('--pos', range.value + '%'); };
+
+  /* projects carousel: one card (+ 20px gap) per click, mirrored under rtl */
+  all('.arrows button').forEach(function(b){
+    b.onclick = function(){
+      var track = all('.track')[0];
+      track.scrollBy({left: (track.firstElementChild.offsetWidth + 20) * b.getAttribute('data-dir') * scrollSign(document.documentElement.dir)});
+    };
+  });
+  /* project cards show the year only */
+  all('.proj time').forEach(function(time){ var year = (time.getAttribute('datetime') || '').slice(0, 4); if (year) time.textContent = year; });
 }
 if (typeof document !== 'undefined') init();
 if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd, setLang: setLang, applyBi: applyBi, nextIndex: nextIndex, scrollSign: scrollSign};
