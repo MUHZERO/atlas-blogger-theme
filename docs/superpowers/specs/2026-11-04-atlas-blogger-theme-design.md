@@ -49,7 +49,7 @@
 - الـ CSS كامل داخل `<b:skin><![CDATA[...]]></b:skin>`، بمتغيرات `<Variable>` من نوع color للألوان (bg، ink، accent، accent-2) باش يتبدلو من Theme Designer.
 - JS وحيد، inline فآخر الـ body، داخل `//<![CDATA[ ... //]]>`. الهدف أقل من 6 KB قبل الضغط. استثناء: سكريبت صغير فالـ `<head>` ديال اللغة (القسم 6).
 - خط IBM Plex Sans Arabic من Google Fonts (400/500/600/700)، مع `display=swap` و`preconnect`.
-- كل تصويرة كتمر من بيانات القالب (`data:post.featuredImage`، `data:sourceUrl` ديال Image widget) باش نقدرو نستعملو `resizeImage`/`sourceSrcset`.
+- كل تصويرة كتمر من بيانات القالب (`data:post.featuredImage`، `data:sourceUrl` ديال Image widget) باش نقدرو نستعملو `resizeImage`/`sourceSet`.
   - ما كاينش تصاور ملصوقة فـ widgets من نوع HTML.
   - `loading="lazy"` لكل تصويرة من غير الأولى فالواجهة. الأولى عندها `fetchpriority="high"`.
   - `width`/`height` لكل تصويرة، باش ما يتحركش التصميم.

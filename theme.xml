@@ -408,7 +408,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
           <b:if cond='data:sourceUrl'>
-            <div class='slide on'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSrcset(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' fetchpriority='high' sizes='100vw'/></div>
+            <div class='slide on'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSet(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' fetchpriority='high' sizes='100vw'/></div>
           </b:if>
           <div class='wrap hero-in'>
             <b:if cond='data:title'><h1><span class='line'><span class='bi' style='--d:.1s'><data:title/></span></span></h1></b:if>
@@ -425,14 +425,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <b:widget id='Image3' locked='false' title='Hero 2' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
-          <div class='slide'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSrcset(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' loading='lazy' sizes='100vw'/></div>
+          <div class='slide'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSet(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' loading='lazy' sizes='100vw'/></div>
         </b:if>
       </b:includable>
     </b:widget>
     <b:widget id='Image4' locked='false' title='Hero 3' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
-          <div class='slide'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSrcset(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' loading='lazy' sizes='100vw'/></div>
+          <div class='slide'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSet(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' loading='lazy' sizes='100vw'/></div>
         </b:if>
       </b:includable>
     </b:widget>
@@ -461,7 +461,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           </div>
           <b:if cond='data:sourceUrl'>
             <a class='tile big rv' expr:href='data:link ? data:link : &quot;#contact&quot;'>
-              <img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1000)' expr:srcset='sourceSrcset(data:sourceUrl, [600, 1000])' expr:width='data:width' loading='lazy' sizes='(max-width:560px) 100vw, 50vw'/>
+              <img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1000)' expr:srcset='sourceSet(data:sourceUrl, [600, 1000])' expr:width='data:width' loading='lazy' sizes='(max-width:560px) 100vw, 50vw'/>
               <div class='ico'><svg><use href='#i-home'/></svg></div>
               <div><h3 class='bi'><data:title/></h3><b:if cond='data:caption'><p class='bi'><data:caption/></p></b:if></div>
             </a>
@@ -490,7 +490,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='ba rv'>
-            <img alt='' class='before' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1200)' expr:srcset='sourceSrcset(data:sourceUrl, [600, 900, 1200])' expr:width='data:width' loading='lazy' sizes='(max-width:960px) 100vw, 58vw'/>
+            <img alt='' class='before' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1200)' expr:srcset='sourceSet(data:sourceUrl, [600, 900, 1200])' expr:width='data:width' loading='lazy' sizes='(max-width:960px) 100vw, 58vw'/>
             <b:if cond='data:title'><span class='tag l bi'><data:title/></span></b:if>
           </div>
         </b:if>
@@ -500,7 +500,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='ba rv'>
-            <img alt='' class='after' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1200)' expr:srcset='sourceSrcset(data:sourceUrl, [600, 900, 1200])' expr:width='data:width' loading='lazy' sizes='(max-width:960px) 100vw, 58vw'/>
+            <img alt='' class='after' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1200)' expr:srcset='sourceSet(data:sourceUrl, [600, 900, 1200])' expr:width='data:width' loading='lazy' sizes='(max-width:960px) 100vw, 58vw'/>
             <b:if cond='data:title'><span class='tag r bi'><data:title/></span></b:if>
             <div class='handle'><i><svg><use href='#i-lr'/></svg></i></div>
             <input aria-label='Avant / Après' data-ar='قبل / بعد' data-fr='Avant / Après' max='100' min='0' type='range' value='50'/>
@@ -571,7 +571,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <a class='proj' expr:href='data:post.url'>
           <div class='img'>
             <b:if cond='data:post.featuredImage'>
-              <img alt='' expr:src='resizeImage(data:post.featuredImage, 800, &quot;4:5&quot;)' expr:srcset='sourceSrcset(data:post.featuredImage, [400, 800], &quot;4:5&quot;)' height='1000' loading='lazy' sizes='(max-width:560px) 80vw, 400px' width='800'/>
+              <img alt='' expr:src='resizeImage(data:post.featuredImage, 800, &quot;4:5&quot;)' expr:srcset='sourceSet(data:post.featuredImage, [400, 800], &quot;4:5&quot;)' height='1000' loading='lazy' sizes='(max-width:560px) 80vw, 400px' width='800'/>
             <b:else/>
               <div class='ph'><svg><use href='#i-home'/></svg></div>
             </b:if>
@@ -648,7 +648,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='member rv'>
-            <div class='img'><img expr:alt='data:title' height='667' expr:src='resizeImage(data:sourceUrl, 500, &quot;3:4&quot;)' expr:srcset='sourceSrcset(data:sourceUrl, [250, 500], &quot;3:4&quot;)' loading='lazy' sizes='(max-width:960px) 50vw, 25vw' width='500'/></div>
+            <div class='img'><img expr:alt='data:title' height='667' expr:src='resizeImage(data:sourceUrl, 500, &quot;3:4&quot;)' expr:srcset='sourceSet(data:sourceUrl, [250, 500], &quot;3:4&quot;)' loading='lazy' sizes='(max-width:960px) 50vw, 25vw' width='500'/></div>
             <b:if cond='data:title'><h3 class='bi'><data:title/></h3></b:if>
             <b:if cond='data:caption'><span class='role bi'><data:caption/></span></b:if>
           </div>
@@ -659,7 +659,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='member rv'>
-            <div class='img'><img expr:alt='data:title' height='667' expr:src='resizeImage(data:sourceUrl, 500, &quot;3:4&quot;)' expr:srcset='sourceSrcset(data:sourceUrl, [250, 500], &quot;3:4&quot;)' loading='lazy' sizes='(max-width:960px) 50vw, 25vw' width='500'/></div>
+            <div class='img'><img expr:alt='data:title' height='667' expr:src='resizeImage(data:sourceUrl, 500, &quot;3:4&quot;)' expr:srcset='sourceSet(data:sourceUrl, [250, 500], &quot;3:4&quot;)' loading='lazy' sizes='(max-width:960px) 50vw, 25vw' width='500'/></div>
             <b:if cond='data:title'><h3 class='bi'><data:title/></h3></b:if>
             <b:if cond='data:caption'><span class='role bi'><data:caption/></span></b:if>
           </div>
@@ -670,7 +670,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='member rv'>
-            <div class='img'><img expr:alt='data:title' height='667' expr:src='resizeImage(data:sourceUrl, 500, &quot;3:4&quot;)' expr:srcset='sourceSrcset(data:sourceUrl, [250, 500], &quot;3:4&quot;)' loading='lazy' sizes='(max-width:960px) 50vw, 25vw' width='500'/></div>
+            <div class='img'><img expr:alt='data:title' height='667' expr:src='resizeImage(data:sourceUrl, 500, &quot;3:4&quot;)' expr:srcset='sourceSet(data:sourceUrl, [250, 500], &quot;3:4&quot;)' loading='lazy' sizes='(max-width:960px) 50vw, 25vw' width='500'/></div>
             <b:if cond='data:title'><h3 class='bi'><data:title/></h3></b:if>
             <b:if cond='data:caption'><span class='role bi'><data:caption/></span></b:if>
           </div>
@@ -681,7 +681,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='member rv'>
-            <div class='img'><img expr:alt='data:title' height='667' expr:src='resizeImage(data:sourceUrl, 500, &quot;3:4&quot;)' expr:srcset='sourceSrcset(data:sourceUrl, [250, 500], &quot;3:4&quot;)' loading='lazy' sizes='(max-width:960px) 50vw, 25vw' width='500'/></div>
+            <div class='img'><img expr:alt='data:title' height='667' expr:src='resizeImage(data:sourceUrl, 500, &quot;3:4&quot;)' expr:srcset='sourceSet(data:sourceUrl, [250, 500], &quot;3:4&quot;)' loading='lazy' sizes='(max-width:960px) 50vw, 25vw' width='500'/></div>
             <b:if cond='data:title'><h3 class='bi'><data:title/></h3></b:if>
             <b:if cond='data:caption'><span class='role bi'><data:caption/></span></b:if>
           </div>
@@ -695,7 +695,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <b:widget id='Image1' locked='true' title='Contact background' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:sourceUrl'>
-          <img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1600)' expr:srcset='sourceSrcset(data:sourceUrl, [800, 1200, 1600])' expr:width='data:width' loading='lazy' sizes='100vw'/>
+          <img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1600)' expr:srcset='sourceSet(data:sourceUrl, [800, 1200, 1600])' expr:width='data:width' loading='lazy' sizes='100vw'/>
         </b:if>
       </b:includable>
     </b:widget>

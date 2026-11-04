@@ -20,7 +20,7 @@
 - Bilingual hide rule, verbatim: `html[lang=fr] [lang=ar], html[lang=ar] [lang=fr]{display:none}`.
 - Owner short text format: `Texte FR | النص بالعربية` split on ` | `; no `|` → shown as is.
 - Default language: `data:blog.locale` starting with `ar` → `ar`, else `fr`; visitor choice in `localStorage` key `atlas-lang`.
-- Every image from template data (`data:post.featuredImage`, Image widget `data:sourceUrl`) through `resizeImage`/`sourceSrcset`, with `width`/`height`; first hero image `fetchpriority="high"`, all others `loading="lazy"`.
+- Every image from template data (`data:post.featuredImage`, Image widget `data:sourceUrl`) through `resizeImage`/`sourceSet`, with `width`/`height`; first hero image `fetchpriority="high"`, all others `loading="lazy"`.
 - `prefers-reduced-motion: reduce` stops animations and autoplay.
 - No horizontal scroll at 375px.
 - One label per project post = its category.
@@ -117,7 +117,7 @@ Each inline script exposes its pure functions for tests without a module system:
 
 - [ ] **Step 1: Failing tests**: `nextIndex(2,3,1)`→`0`, `nextIndex(0,3,-1)`→`2`, `nextIndex(0,1,1)`→`0`.
 - [ ] **Step 2: Run** → fail.
-- [ ] **Step 3: Implement** slider (crossfade, Ken Burns, progress dots, counter) with `nextIndex`; when only one slide exists, no dots, no timer. First image `fetchpriority='high'`, `sourceSrcset` widths 800/1400/1800.
+- [ ] **Step 3: Implement** slider (crossfade, Ken Burns, progress dots, counter) with `nextIndex`; when only one slide exists, no dots, no timer. First image `fetchpriority='high'`, `sourceSet` widths 800/1400/1800.
 - [ ] **Step 4: Checker rule** `hero_lcp` (exactly one `fetchpriority` in the theme, inside the hero includable).
 - [ ] **Step 5: Run checker + tests**; on the test blog: 3 slides cycle; delete slides 2–3 → page still works, console clean.
 - [ ] **Step 6: Commit** `feat: hero slider and marquee`
