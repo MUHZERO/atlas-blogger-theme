@@ -113,6 +113,47 @@ header.solid .lang .thumb,.inner .lang .thumb{background:var(--accent)}
 header.solid .lang button[aria-pressed=true],.inner .lang button[aria-pressed=true]{color:#fff}
 .bar .btn{height:42px;font-size:14px}
 
+/* home-only sections: their widgets render nothing elsewhere, the boxes go too */
+.inner #hero,.inner #marquee,.inner #services,.inner #beforeafter{display:none}
+
+/* hero slider: Image2 is slide 1 + the text, Image3 and Image4 are image-only slides; init() adds the dots */
+.hero{position:relative;height:100svh;min-height:600px;color:#fff;overflow:hidden;padding:0}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
+.slide.on{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.12)}
+.slide.on img{animation:kb 8s linear forwards}
+@keyframes kb{to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,12,11,.92),rgba(10,12,11,.45) 45%,rgba(10,12,11,.1) 75%,rgba(10,12,11,.4))}
+.hero-in{position:absolute;inset:auto 0 0;z-index:2;padding-bottom:56px}
+.hero h1{font-size:clamp(38px,7vw,84px);line-height:1.04;font-weight:700;letter-spacing:-.02em;max-width:900px}
+html[lang=ar] .hero h1{line-height:1.25;letter-spacing:0}
+.line{display:block;overflow:hidden}
+.line>span{display:block;animation:up 1s var(--ease) both;animation-delay:var(--d)}
+@keyframes up{from{transform:translateY(105%)}}
+.hero p{font-size:18px;opacity:.85;margin:18px 0 30px;animation:fade 1s .5s both}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;animation:fade 1s .7s both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}}
+.hero-foot{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,.2)}
+.dots{display:flex;gap:8px}
+.dots button{width:36px;height:3px;border:0;background:rgba(255,255,255,.3);padding:0;position:relative;overflow:hidden}
+.dots button.on::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:left;animation:bar 6s linear forwards}
+html[dir=rtl] .dots button.on::after{transform-origin:right}
+@keyframes bar{from{transform:scaleX(0)}}
+.counter{font-size:14px;opacity:.8;font-variant-numeric:tabular-nums}
+@media (max-width:560px){
+  .hero .cta{flex-direction:column}
+  .hero-foot .counter{display:none}
+}
+
+/* marquee: LinkList3 names, rendered once, copied by init() */
+.marquee{background:var(--ink);color:#fff;overflow:hidden;padding:22px 0;direction:ltr}
+.mq-track{display:flex;width:max-content;animation:mq 30s linear infinite}
+.marquee:hover .mq-track{animation-play-state:paused}
+html[dir=rtl] .mq-track{animation-direction:reverse}
+.mq-track>span{display:flex;align-items:center;gap:28px;padding-inline-end:28px;font-size:clamp(20px,3vw,30px);font-weight:600;white-space:nowrap}
+.mq-track>span::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent-2)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
 /* contact band: Image1 is the background, LinkList1 the content */
 .contact-wrap{margin-bottom:24px}
 .cta-band{position:relative;isolation:isolate;border-radius:28px;overflow:hidden;color:#fff;background:var(--accent)}
@@ -202,8 +243,51 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a class='btn btn-primary' data-wa='' href='#contact'><svg><use href='#i-chat'/></svg>WhatsApp</a>
   </div>
 </header>
-  <b:section id='hero' showaddelement='yes'/>
-  <b:section id='marquee' showaddelement='yes'/>
+  <!-- Image2: TITLE = h1 "FR | AR", CAPTION = subline "FR | AR", LINK = primary button. Image3, Image4: image only. -->
+  <b:section class='hero' id='hero' maxwidgets='3' showaddelement='yes'>
+    <b:widget id='Image2' locked='false' title='Hero 1' type='Image' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isHomepage'>
+          <b:if cond='data:sourceUrl'>
+            <div class='slide on'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSrcset(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' fetchpriority='high' sizes='100vw'/></div>
+          </b:if>
+          <div class='wrap hero-in'>
+            <h1><span class='line'><span class='bi' style='--d:.1s'><data:title/></span></span></h1>
+            <b:if cond='data:caption'><p class='bi'><data:caption/></p></b:if>
+            <div class='cta'>
+              <a class='btn btn-light' expr:href='data:link ? data:link : &quot;#contact&quot;'><span lang='fr'>Demander un devis</span><span lang='ar'>اطلب عرض سعر</span><svg class='flip'><use href='#i-arrow'/></svg></a>
+              <a class='btn btn-glass' href='#projets'><span lang='fr'>Nos réalisations</span><span lang='ar'>شاهد أعمالنا</span></a>
+            </div>
+            <div class='hero-foot'><div class='dots'></div><div class='counter'></div></div>
+          </div>
+        </b:if>
+      </b:includable>
+    </b:widget>
+    <b:widget id='Image3' locked='false' title='Hero 2' type='Image' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isHomepage and data:sourceUrl'>
+          <div class='slide'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSrcset(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' loading='lazy' sizes='100vw'/></div>
+        </b:if>
+      </b:includable>
+    </b:widget>
+    <b:widget id='Image4' locked='false' title='Hero 3' type='Image' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isHomepage and data:sourceUrl'>
+          <div class='slide'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSrcset(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' loading='lazy' sizes='100vw'/></div>
+        </b:if>
+      </b:includable>
+    </b:widget>
+  </b:section>
+  <!-- LinkList3 items: NAME = "FR | AR", TARGET unused -->
+  <b:section class='marquee' id='marquee' maxwidgets='1' showaddelement='yes'>
+    <b:widget id='LinkList3' locked='false' title='Marquee' type='LinkList' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isHomepage'>
+          <div aria-hidden='true' class='mq-track'><b:loop values='data:links' var='link'><span class='bi'><data:link.name/></span></b:loop></div>
+        </b:if>
+      </b:includable>
+    </b:widget>
+  </b:section>
   <b:section id='services' showaddelement='yes'/>
   <b:section id='beforeafter' showaddelement='yes'/>
   <b:section id='main' showaddelement='yes'>
@@ -320,6 +404,8 @@ function setLang(l, keep){
     if (on && t) { t.style.left = b.offsetLeft + 'px'; t.style.width = b.offsetWidth + 'px'; }
   });
 }
+/* slider position after one step, wrapping both ways */
+function nextIndex(i, n, step){ return (i + step + n) % n; }
 function init(){
   var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
   var src = document.querySelector('[data-wa-src]'), wa = src ? src.getAttribute('data-wa-src') : '';
@@ -345,6 +431,26 @@ function init(){
   addEventListener('scroll', solid, {passive: true}); solid();
   $$('[data-bi]').forEach(function(el){ bi(el, el.textContent.trim()); });
   $$('[data-year]').forEach(function(el){ el.textContent = '\u00a9 ' + new Date().getFullYear(); });
+  /* hero: dots and timer only for 2+ slides; no autoplay with reduced motion */
+  var sl = $$('.slide'), n = sl.length, dots = document.querySelector('.hero .dots'), tm;
+  var show = function(i){
+    sl.forEach(function(s, k){ s.classList.toggle('on', k == i); });
+    if (n < 2 || !dots) return;
+    [].forEach.call(dots.children, function(d, k){ d.className = ''; if (k == i) { void d.offsetWidth; d.className = 'on'; } });
+    document.querySelector('.hero .counter').textContent = '0' + (i + 1) + ' / 0' + n;
+    clearTimeout(tm);
+    if (!matchMedia('(prefers-reduced-motion:reduce)').matches) tm = setTimeout(function(){ show(nextIndex(i, n, 1)); }, 6000);
+  };
+  if (dots && n > 1) {
+    sl.forEach(function(s, k){ dots.innerHTML += '<button type="button" aria-label="' + (k + 1) + '"></button>'; });
+    dots.onclick = function(e){ var k = [].indexOf.call(dots.children, e.target); if (k > -1) show(k); };
+  }
+  show(0);
+  /* marquee: four copies, one half covers wide screens */
+  $$('.mq-track').forEach(function(t){ t.innerHTML += t.innerHTML; t.innerHTML += t.innerHTML; });
+  /* reveal once an element enters the viewport */
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold: .15});
+  $$('.rv').forEach(function(el){ io.observe(el); });
   var f = document.getElementById('wa-form');
   if (f && wa) {
     f.hidden = false;
@@ -356,7 +462,7 @@ function init(){
   }
 }
 if (typeof document !== 'undefined') init();
-if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd, setLang: setLang, applyBi: applyBi};
+if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd, setLang: setLang, applyBi: applyBi, nextIndex: nextIndex};
 //]]>
 </script>
 </body>

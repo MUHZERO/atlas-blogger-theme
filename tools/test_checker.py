@@ -28,6 +28,12 @@ class ThemeCheckerTests(unittest.TestCase):
         text = (FIXTURES / "ok.xml").read_text().replace("<body>", '<body><script id="atlas-head">' + "x" * 401 + "</script>")
         self.assertIn("js_budget: script #atlas-head is 401 bytes", "\n".join(check_text(text)))
 
+    def test_hero_lcp_outside_hero(self):
+        text = (FIXTURES / "ok.xml").read_text().replace("<body>", '<body><img fetchpriority="high"/>')
+        self.assertIn("hero_lcp: exactly one fetchpriority expected, found 2", "\n".join(check_text(text)))
+        text = (FIXTURES / "ok.xml").read_text().replace(' fetchpriority="high"', "").replace("<body>", '<body><img fetchpriority="high"/>')
+        self.assertIn("hero_lcp: fetchpriority must sit inside section hero", "\n".join(check_text(text)))
+
     def test_also_missing_path_fails(self):
         self.assertEqual(main([str(FIXTURES / "ok.xml"), "--also", "does-not-exist"]), 1)
 

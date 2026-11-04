@@ -155,6 +155,19 @@ def rule_nav_absolute(text: str, root) -> list[str]:
         ["LinkList2 hrefs must be built with data:blog.homepageUrl"]
 
 
+def rule_hero_lcp(text: str, root) -> list[str]:
+    found = [element for element in root.iter() if any(local_name(key) == "fetchpriority" for key in element.attrib)]
+    if len(found) != 1:
+        return [f"exactly one fetchpriority expected, found {len(found)}"]
+    parents = {child: parent for parent in root.iter() for child in parent}
+    element = found[0]
+    while element is not None:
+        if element.tag == f"{{{B}}}section" and element.get("id") == "hero":
+            return []
+        element = parents.get(element)
+    return ["fetchpriority must sit inside section hero"]
+
+
 RULES = [
     ("well_formed", rule_well_formed),
     ("html_attrs", rule_html_attrs),
@@ -168,6 +181,7 @@ RULES = [
     ("wa_buttons", rule_wa_buttons),
     ("jsonld_guarded", rule_jsonld_guarded),
     ("nav_absolute", rule_nav_absolute),
+    ("hero_lcp", rule_hero_lcp),
 ]
 
 

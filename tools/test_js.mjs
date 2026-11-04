@@ -59,3 +59,10 @@ test('setLang and applyBi are exported by atlas-js', () => {
   assert.equal(typeof T.setLang, 'function');
   assert.equal(typeof T.applyBi, 'function');
 });
+
+test('nextIndex wraps forward and back', () => {
+  assert.equal(T.nextIndex(2, 3, 1), 0);
+  assert.equal(T.nextIndex(0, 3, -1), 2);
+  assert.equal(T.nextIndex(0, 1, 1), 0);
+  assert.equal(T.nextIndex(1, 3, 1), 2);
+});
