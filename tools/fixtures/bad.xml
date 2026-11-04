@@ -4,6 +4,9 @@
   <head><link href="https://evil.example/x"/><style>missing</style></head>
   <body>
     <b:section id="hero"/><b:section id="header"/>
+    <b:if cond="data:view.isHomepage"><b:section id="contact"/></b:if>
+    <a data-wa="" href="#">WhatsApp</a>
+    <script type="application/ld+json">{"name":"x","telephone":"1"}</script>
     <svg><symbol id="same"/><symbol id="same"/></svg>
     <script src="https://fonts.googleapis.com/x"></script>
     <script id="atlas-js">&c;<![CDATA[/* 😀 */]]></script>

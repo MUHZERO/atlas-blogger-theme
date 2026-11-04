@@ -73,6 +73,41 @@ html[dir=rtl] .btn:hover svg.flip{transform:scaleX(-1) translateX(4px)}
 .js .rv{opacity:0;transform:translateY(28px)}
 .js .rv.in{opacity:1;transform:none}
 
+/* contact band: Image1 is the background, LinkList1 the content */
+.contact-wrap{margin-bottom:24px}
+.cta-band{position:relative;isolation:isolate;border-radius:28px;overflow:hidden;color:#fff;background:var(--accent)}
+.cta-band::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,rgba(15,40,32,.95),rgba(15,40,32,.6))}
+html[dir=rtl] .cta-band::before{background:linear-gradient(-100deg,rgba(15,40,32,.95),rgba(15,40,32,.6))}
+.cta-band .Image{position:absolute;inset:0;z-index:-2}
+.cta-band .Image img{width:100%;height:100%;object-fit:cover}
+.cta-band .LinkList{padding:72px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em}
+.eyebrow::before{content:"";width:18px;height:2px;background:currentColor}
+h2{font-size:clamp(28px,4.4vw,44px);line-height:1.15;font-weight:700;margin:10px 0 40px;letter-spacing:-.01em}
+html[lang=ar] h2{line-height:1.35;letter-spacing:0}
+.cta-band h2{margin:10px 0 16px}
+.cta-band .eyebrow{color:var(--accent-2)}
+.cta-band .rows{display:grid;gap:10px;margin-top:28px}
+.cta-band .r{display:flex;align-items:center;gap:12px;font-size:15px;opacity:.9}
+.ltr{direction:ltr;unicode-bidi:isolate}
+form{background:var(--surface);color:var(--ink);border-radius:20px;padding:24px;display:grid;gap:12px}
+input,textarea{font:inherit;font-size:15px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:var(--bg);color:var(--ink);width:100%;transition:border-color .3s,background .3s}
+input:focus,textarea:focus{outline:0;border-color:var(--accent);background:#fff}
+textarea{min-height:100px;resize:vertical}
+
+footer{padding:40px 0;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* floating WhatsApp, mobile only */
+.fab{position:fixed;bottom:16px;inset-inline-end:16px;width:58px;height:58px;border-radius:50%;background:var(--accent);color:#fff;display:none;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.25);z-index:40}
+.fab::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--accent);animation:ping 2.4s ease-out infinite;z-index:-1}
+@keyframes ping{to{transform:scale(1.6);opacity:0}}
+.fab svg{width:26px;height:26px}
+@media (max-width:960px){
+  .cta-band .LinkList{grid-template-columns:1fr;padding:48px 24px}
+  .fab{display:grid}
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .js .rv{opacity:1;transform:none}
@@ -96,13 +131,99 @@ html[dir=rtl] .btn:hover svg.flip{transform:scaleX(-1) translateX(4px)}
   <b:section id='numbers' showaddelement='yes'/>
   <b:section id='reviews' showaddelement='yes'/>
   <b:section id='team' showaddelement='yes'/>
-  <b:section id='contact' showaddelement='yes'/>
+  <div class='wrap contact-wrap'>
+  <b:section class='cta-band rv' id='contact' maxwidgets='2' showaddelement='no'>
+    <b:widget id='Image1' locked='true' title='Contact background' type='Image' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:sourceUrl'>
+          <img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1600)' expr:srcset='sourceSrcset(data:sourceUrl, [800, 1200, 1600])' expr:width='data:width' loading='lazy' sizes='100vw'/>
+        </b:if>
+      </b:includable>
+    </b:widget>
+    <b:widget id='LinkList1' locked='true' title='Contact' type='LinkList' version='2' visible='true'>
+      <!-- items: whatsapp | phone | "hours: FR | AR" | "address: FR | AR" -->
+      <b:includable id='main'>
+        <div>
+          <div class='eyebrow'><span lang='fr'>Contact</span><span lang='ar'>اتصل بنا</span></div>
+          <h2><span lang='fr'>Parlons de votre projet</span><span lang='ar'>حدثنا عن مشروعك</span></h2>
+          <a class='btn btn-light' data-wa='' href='#contact'><svg><use href='#i-chat'/></svg>WhatsApp</a>
+          <div class='rows'>
+            <b:loop values='data:links' var='link'>
+              <b:if cond='data:link.name contains &quot;whatsapp&quot;'>
+                <a aria-hidden='true' expr:href='data:link.target' hidden='hidden' id='wa-src' tabindex='-1'></a>
+              <b:elseif cond='data:link.name contains &quot;phone&quot;'/>
+                <a class='r' expr:href='data:link.target'><svg><use href='#i-phone'/></svg><span class='ltr' data-key='phone'><data:link.name/></span></a>
+              <b:elseif cond='data:link.name contains &quot;hours:&quot;'/>
+                <div class='r'><svg><use href='#i-clock'/></svg><span data-key='hours'><data:link.name/></span></div>
+              <b:elseif cond='data:link.name contains &quot;address:&quot;'/>
+                <a class='r' expr:href='data:link.target' rel='noopener' target='_blank'><svg><use href='#i-pin'/></svg><span data-key='address'><data:link.name/></span></a>
+              </b:if>
+            </b:loop>
+          </div>
+        </div>
+        <form id='wa-form'>
+          <input aria-label='Nom' autocomplete='name' data-ar='الاسم' data-fr='Nom' name='name' placeholder='Nom' required='required'/>
+          <input aria-label='Téléphone' autocomplete='tel' data-ar='الهاتف' data-fr='Téléphone' name='phone' placeholder='Téléphone' type='tel'/>
+          <textarea aria-label='Message' data-ar='الرسالة' data-fr='Message' name='msg' placeholder='Message'></textarea>
+          <button class='btn btn-primary' type='submit'><span lang='fr'>Envoyer</span><span lang='ar'>إرسال</span></button>
+        </form>
+        <!-- LocalBusiness, server-rendered; optional keys only when the item exists -->
+        <script type='application/ld+json'>{"@context":"https://schema.org","@type":"LocalBusiness","name":"<data:blog.title.jsonEscaped/>","url":"<data:blog.homepageUrl/>"<b:loop values='data:links' var='link'><b:if cond='data:link.name contains &quot;phone&quot;'>,"telephone":"<data:link.target/>"<b:elseif cond='data:link.name contains &quot;address:&quot;'/>,"address":"<data:link.name.jsonEscaped/>"<b:elseif cond='data:link.name contains &quot;hours:&quot;'/>,"openingHours":"<data:link.name.jsonEscaped/>"</b:if></b:loop>}</script>
+      </b:includable>
+    </b:widget>
+  </b:section>
+  </div>
+
+<footer>
+  <div class='wrap'>
+    <span>&#169; <span data-year=''></span> <span data-bi=''><data:blog.title/></span></span>
+    <a href='https://muhdroid.com'><span lang='fr'>Thème par</span><span lang='ar'>قالب من</span> MuhDroid</a>
+  </div>
+</footer>
+
+<a aria-label='WhatsApp' class='fab' data-wa='' href='#contact'><svg><use href='#i-chat'/></svg></a>
 
 <script id='atlas-js'>
 //<![CDATA[
-function init(){}
+/* owner text "FR | AR": split on the first " | ", no bar = same text twice */
+function splitBi(s){
+  var i = s.indexOf(' | ');
+  return i < 0 ? {fr: s.trim(), ar: s.trim()} : {fr: s.slice(0, i).trim(), ar: s.slice(i + 3).trim()};
+}
+/* WhatsApp link with a prefilled message; any other base is returned as is */
+function waUrl(base, lines){
+  return base.indexOf('wa.me') < 0 ? base : base + '?text=' + encodeURIComponent(lines.join('\n'));
+}
+/* replace an element's text with one span per language */
+function bi(el, text){
+  var b = splitBi(text);
+  el.textContent = '';
+  ['fr', 'ar'].forEach(function(l){
+    var s = document.createElement('span');
+    s.lang = l; s.textContent = b[l]; el.appendChild(s);
+  });
+}
+function init(){
+  var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
+  var src = document.getElementById('wa-src'), wa = src ? src.getAttribute('href') : '';
+  if (wa) $$('[data-wa]').forEach(function(a){ a.href = wa; a.target = '_blank'; a.rel = 'noopener'; });
+  /* contact rows: "hours: Lun | ..." -> drop the key, split the languages */
+  $$('[data-key]').forEach(function(el){
+    var t = el.textContent.trim(), i = t.indexOf(': ');
+    if (i >= 0) bi(el, t.slice(i + 2));
+    else if (el.getAttribute('data-key') === 'phone') el.textContent = (el.parentNode.getAttribute('href') || t).replace(/^tel:/, '');
+  });
+  $$('[data-bi]').forEach(function(el){ bi(el, el.textContent.trim()); });
+  $$('[data-year]').forEach(function(el){ el.textContent = new Date().getFullYear(); });
+  var f = document.getElementById('wa-form');
+  if (f) f.addEventListener('submit', function(e){
+    e.preventDefault();
+    var v = function(n){ return f.elements[n].value.trim(); };
+    window.open(waUrl(wa || '#contact', ['Nom: ' + v('name'), 'Tel: ' + v('phone'), v('msg')]), '_blank', 'noopener');
+  });
+}
 if (typeof document !== 'undefined') init();
-if (typeof module !== 'undefined') module.exports = {};
+if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl};
 //]]>
 </script>
 </body>

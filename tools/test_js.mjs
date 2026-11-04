@@ -19,3 +19,15 @@ export { assert, test };
 
 // --- tests ---
 test('theme helpers export an object', () => assert.equal(typeof T, 'object'));
+
+test('splitBi splits on the first " | "', () => {
+  assert.deepEqual(T.splitBi('Cuisine | مطبخ'), { fr: 'Cuisine', ar: 'مطبخ' });
+  assert.deepEqual(T.splitBi('Atlas'), { fr: 'Atlas', ar: 'Atlas' });
+  assert.deepEqual(T.splitBi('A | B | C'), { fr: 'A', ar: 'B | C' });
+});
+
+test('waUrl appends the encoded message to wa.me only', () => {
+  assert.equal(T.waUrl('https://wa.me/212600000000', ['Nom: Sara', 'Msg: Salam']),
+    'https://wa.me/212600000000?text=Nom%3A%20Sara%0AMsg%3A%20Salam');
+  assert.equal(T.waUrl('#contact', ['x']), '#contact');
+});

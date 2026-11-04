@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from tools.check_theme import RULES, check_text
+from tools.check_theme import RULES, check_text, main
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -19,6 +19,17 @@ class ThemeCheckerTests(unittest.TestCase):
         errors = check_text("<html>")
         self.assertTrue(errors[0].startswith("well_formed:"))
         self.assertEqual(len(errors), 1)
+
+    def test_html_must_declare_namespaces(self):
+        text = (FIXTURES / "ok.xml").read_text().replace(' xmlns:expr="http://www.google.com/2005/gml/expr"', "")
+        self.assertIn("html_attrs: html must declare xmlns:expr", "\n".join(check_text(text)))
+
+    def test_head_script_budget(self):
+        text = (FIXTURES / "ok.xml").read_text().replace("<body>", '<body><script id="atlas-head">' + "x" * 401 + "</script>")
+        self.assertIn("js_budget: script #atlas-head is 401 bytes", "\n".join(check_text(text)))
+
+    def test_also_missing_path_fails(self):
+        self.assertEqual(main([str(FIXTURES / "ok.xml"), "--also", "does-not-exist"]), 1)
 
 
 if __name__ == "__main__":

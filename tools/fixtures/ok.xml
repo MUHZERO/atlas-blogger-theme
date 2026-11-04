@@ -4,6 +4,8 @@
   <body>
     <b:section id="header"/><b:section id="hero"/><b:section id="marquee"/><b:section id="services"/><b:section id="beforeafter"/><b:section id="main"/><b:section id="numbers"/><b:section id="reviews"/><b:section id="team"/><b:section id="contact"/>
     <svg><symbol id="one"/></svg>
+    <a data-wa="" href="#contact">WhatsApp</a>
+    <script type="application/ld+json">{"name":"x"<b:if cond="data:x">,"telephone":"1"</b:if>}</script>
     <script id="atlas-js"><![CDATA[module.exports = {};]]></script>
   </body>
 </html>

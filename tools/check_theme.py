@@ -2,12 +2,17 @@
 """Small, dependency-free checks for the Blogger theme."""
 
 import argparse
+import re
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import urlparse
 
 B = "http://www.google.com/2005/gml/b"
+NAMESPACES = {
+    "b": B, "data": "http://www.google.com/2005/gml/data", "expr": "http://www.google.com/2005/gml/expr",
+}
+OPTIONAL_JSONLD_KEYS = ["telephone", "address", "openingHours"]
 REQUIRED_SECTIONS = [
     "header", "hero", "marquee", "services", "beforeafter", "main", "numbers",
     "reviews", "team", "contact",
@@ -35,6 +40,10 @@ def rule_html_attrs(text: str, root) -> list[str]:
     errors = [] if local_name(root.tag) == "html" else ["root element must be html"]
     errors.extend(f"html b:{key} must be {value!r}" for key, value in expected.items()
                   if root.get(f"{{{B}}}{key}") != value)
+    start = re.search(r"<html\b[^>]*>", text)
+    tag = start.group(0) if start else ""
+    errors.extend(f"html must declare xmlns:{prefix}={uri!r}" for prefix, uri in NAMESPACES.items()
+                  if not re.search(rf"""xmlns:{prefix}=(['"]){re.escape(uri)}\1""", tag))
     return errors
 
 
@@ -74,11 +83,16 @@ def rule_symbol_ids_unique(text: str, root) -> list[str]:
 
 
 def rule_js_budget(text: str, root) -> list[str]:
-    script = next((element for element in root.iter() if local_name(element.tag) == "script" and element.get("id") == "atlas-js"), None)
-    if script is None:
+    scripts = {element.get("id"): element for element in root.iter() if local_name(element.tag) == "script"}
+    if "atlas-js" not in scripts:
         return ["script #atlas-js is missing"]
-    size = len("".join(script.itertext()).encode())
-    return [] if size <= 6144 else [f"script #atlas-js is {size} bytes (maximum 6144)"]
+    errors = []
+    for name, limit in (("atlas-js", 6144), ("atlas-head", 400)):
+        if name in scripts:
+            size = len("".join(scripts[name].itertext()).encode())
+            if size > limit:
+                errors.append(f"script #{name} is {size} bytes (maximum {limit})")
+    return errors
 
 
 def rule_sections_present(text: str, root) -> list[str]:
@@ -97,6 +111,40 @@ def rule_bi_rule(text: str, root) -> list[str]:
     return [] if expected in text else ["missing bilingual visibility rule"]
 
 
+def rule_contact_everywhere(text: str, root) -> list[str]:
+    parents = {child: parent for parent in root.iter() for child in parent}
+    section = next((element for element in root.iter()
+                    if element.tag == f"{{{B}}}section" and element.get("id") == "contact"), None)
+    element, errors = section, []
+    while element is not None:
+        if "data:view" in (element.get("cond") or ""):
+            errors.append("section contact must not sit inside a data:view condition")
+        element = parents.get(element)
+    return errors
+
+
+def rule_wa_buttons(text: str, root) -> list[str]:
+    return [f"data-wa must be on <a href='#contact'>, found <{local_name(element.tag)} href={element.get('href')!r}>"
+            for element in root.iter() if "data-wa" in element.attrib
+            and (local_name(element.tag) != "a" or element.get("href") != "#contact")]
+
+
+def unguarded_text(element) -> str:
+    out = element.text or ""
+    for child in element:
+        if child.tag != f"{{{B}}}if":
+            out += unguarded_text(child)
+        out += child.tail or ""
+    return out
+
+
+def rule_jsonld_guarded(text: str, root) -> list[str]:
+    scripts = [element for element in root.iter()
+               if local_name(element.tag) == "script" and element.get("type") == "application/ld+json"]
+    return [f"JSON-LD key {key!r} must sit inside a b:if" for script in scripts
+            for key in OPTIONAL_JSONLD_KEYS if f'"{key}"' in unguarded_text(script)]
+
+
 RULES = [
     ("well_formed", rule_well_formed),
     ("html_attrs", rule_html_attrs),
@@ -106,6 +154,9 @@ RULES = [
     ("js_budget", rule_js_budget),
     ("sections_present", rule_sections_present),
     ("bi_rule", rule_bi_rule),
+    ("contact_everywhere", rule_contact_everywhere),
+    ("wa_buttons", rule_wa_buttons),
+    ("jsonld_guarded", rule_jsonld_guarded),
 ]
 
 
@@ -123,6 +174,8 @@ def extra_paths(paths: list[str]) -> list[Path]:
     files = []
     for value in paths:
         path = Path(value)
+        if not path.exists():
+            raise FileNotFoundError(value)
         files.extend(candidate for candidate in (path.rglob("*") if path.is_dir() else [path])
                      if candidate.is_file() and candidate.suffix in {".md", ".html"})
     return files
@@ -138,7 +191,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{args.theme} not found")
         return 1
     errors = check_text(theme.read_text(encoding="utf-8"))
-    for path in extra_paths(args.also):
+    try:
+        also = extra_paths(args.also)
+    except FileNotFoundError as missing:
+        print(f"{missing} not found")
+        return 1
+    for path in also:
         errors.extend(f"no_emoji: {path}: {message}" for message in rule_no_emoji(path.read_text(encoding="utf-8"), None))
     if errors:
         print("\n".join(errors))
