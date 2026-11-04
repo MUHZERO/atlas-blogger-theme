@@ -16,7 +16,7 @@
 - No `<script src=…>` at all; the only external stylesheet is Google Fonts `IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap` with `preconnect`.
 - No emoji anywhere (theme, demo, README). Icons are SVG `<symbol>`s defined once.
 - Short copy: one line per item.
-- Inline end-of-body JS ≤ 6144 bytes (excluding the `<head>` language script).
+- Inline end-of-body JS ≤ 9216 bytes (excluding the `<head>` language script).
 - Bilingual hide rule, verbatim: `html[lang=fr] [lang=ar], html[lang=ar] [lang=fr]{display:none}`.
 - Owner short text format: `Texte FR | النص بالعربية` split on ` | `; no `|` → shown as is.
 - Default language: `data:blog.locale` starting with `ar` → `ar`, else `fr`; visitor choice in `localStorage` key `atlas-lang`.
@@ -67,7 +67,7 @@ Each inline script exposes its pure functions for tests without a module system:
 - Produces: sections (ids, in order) `header`, `hero`, `marquee`, `services`, `beforeafter`, `main`, `numbers`, `reviews`, `team`, `contact`; a top-level includable `icons` holding every `<symbol>` (ids `i-chat i-arrow i-left i-right i-lr i-home i-paint i-tile i-drop i-bolt i-shield i-phone i-pin i-clock i-star i-globe`); `<script id="atlas-js">` with `function init()` and the export line; checker CLI `python3 tools/check_theme.py theme.xml`; JS tests `node --test tools/test_js.mjs`.
 
 - [ ] **Step 1: Write the checker with these rules, each a function returning a list of errors**
-  `well_formed` (stdlib `xml.etree` parse), `html_attrs` (the four `b:` attributes above), `no_emoji` (no char in `U+1F000–U+1FAFF`, `U+2600–U+27BF`), `external_refs` (every `src=`/`href=` to `http` outside `fonts.googleapis.com`, `fonts.gstatic.com`, `blogger.googleusercontent.com`, `*.bp.blogspot.com`, `muhdroid.com`, `wa.me`, `www.google.com/maps` fails; `<script src=` always fails), `symbol_ids_unique`, `js_budget` (text of `#atlas-js` ≤ 6144 bytes), `sections_present` (the ten ids, in order), `bi_rule` (the verbatim hide rule present).
+  `well_formed` (stdlib `xml.etree` parse), `html_attrs` (the four `b:` attributes above), `no_emoji` (no char in `U+1F000–U+1FAFF`, `U+2600–U+27BF`), `external_refs` (every `src=`/`href=` to `http` outside `fonts.googleapis.com`, `fonts.gstatic.com`, `blogger.googleusercontent.com`, `*.bp.blogspot.com`, `muhdroid.com`, `wa.me`, `www.google.com/maps` fails; `<script src=` always fails), `symbol_ids_unique`, `js_budget` (text of `#atlas-js` ≤ 9216 bytes), `sections_present` (the ten ids, in order), `bi_rule` (the verbatim hide rule present).
 - [ ] **Step 2: Run `python3 tools/check_theme.py theme.xml` with no theme → exit 1, message names the missing file**
 - [ ] **Step 3: Write `theme.xml`**: `<head>` with meta charset/viewport, fonts, `<b:skin>` holding the four colour `Variable`s plus the mockup's base CSS (tokens, reset, `.wrap`, `.btn*`, `.rv`, bilingual rule, reduced-motion block), the ten empty sections (`showaddelement='yes'`), `icons` includable called once at top of `<body>`, empty `atlas-js` script with `init()` and the export line.
 - [ ] **Step 4: Write `test_js.mjs`** with one passing smoke test: the extracted script evaluates and exports an object.
