@@ -97,3 +97,9 @@ test('post h1 inline split: a title without " | " stays once, unchanged', () => 
   assert.equal(h1.textContent, 'Atlas');
   assert.ok('data-done' in h1.attrs);
 });
+
+test('both copies of the inline split script are byte-identical', () => {
+  const copies = [...theme.matchAll(/<script>(?=\s*\/\/<!\[CDATA\[\s*!function)([\s\S]*?)\/\/\]\]>/g)].map((m) => m[1]);
+  assert.equal(copies.length, 2);
+  assert.equal(copies[0], copies[1]);
+});

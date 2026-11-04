@@ -17,6 +17,7 @@ REQUIRED_SECTIONS = [
     "header", "hero", "marquee", "services", "beforeafter", "main", "numbers",
     "reviews", "team", "contact",
 ]
+OG_REQUIRED = ["og:title", "og:type", "og:url", "og:site_name", "og:locale", "twitter:card"]
 ALLOWED_HOSTS = {
     "fonts.googleapis.com", "fonts.gstatic.com", "blogger.googleusercontent.com",
     "muhdroid.com", "wa.me",
@@ -197,9 +198,19 @@ def rule_noindex_lists(text: str, root) -> list[str]:
             while element is not None:
                 conds += " " + (element.get("cond") or "")
                 element = parents.get(element)
-            if all(view in conds for view in ("isLabelSearch", "isSearch", "isArchive")):
+            if all(re.search(rf"\b{view}\b", conds) for view in ("isLabelSearch", "isSearch", "isArchive")):
                 return []
     return ["robots noindex must be emitted for isLabelSearch, isSearch and isArchive"]
+
+
+def rule_one_canonical(text: str, root) -> list[str]:
+    found = sum(1 for element in root.iter() if local_name(element.tag) == "link" and element.get("rel") == "canonical")
+    return [] if found == 1 else [f"exactly one link rel=canonical expected, found {found}"]
+
+
+def rule_og_present(text: str, root) -> list[str]:
+    found = {element.get("property") or element.get("name") for element in root.iter() if local_name(element.tag) == "meta"}
+    return [f"meta {key} is missing" for key in OG_REQUIRED if key not in found]
 
 
 RULES = [
@@ -219,6 +230,8 @@ RULES = [
     ("ba_ltr", rule_ba_ltr),
     ("post_h1_inline_split", rule_post_h1_inline_split),
     ("noindex_lists", rule_noindex_lists),
+    ("one_canonical", rule_one_canonical),
+    ("og_present", rule_og_present),
 ]
 
 

@@ -46,6 +46,20 @@ class ThemeCheckerTests(unittest.TestCase):
         text = (FIXTURES / "ok.xml").read_text().replace(" or data:view.isArchive", "")
         self.assertIn("noindex_lists:", "\n".join(check_text(text)))
 
+    def test_noindex_needs_whole_tokens(self):
+        text = (FIXTURES / "ok.xml").read_text().replace("data:view.isSearch", "data:view.isSearchX")
+        self.assertIn("noindex_lists:", "\n".join(check_text(text)))
+
+    def test_one_canonical(self):
+        ok = (FIXTURES / "ok.xml").read_text()
+        link = '<link rel="canonical" expr:href="data:view.url.canonical"/>'
+        self.assertIn("one_canonical:", "\n".join(check_text(ok.replace(link, ""))))
+        self.assertIn("one_canonical: exactly one link rel=canonical expected, found 2", "\n".join(check_text(ok.replace(link, link + link))))
+
+    def test_og_present(self):
+        text = (FIXTURES / "ok.xml").read_text().replace('<meta property="og:locale" content="fr"/>', "")
+        self.assertIn("og_present: meta og:locale is missing", "\n".join(check_text(text)))
+
     def test_also_missing_path_fails(self):
         self.assertEqual(main([str(FIXTURES / "ok.xml"), "--also", "does-not-exist"]), 1)
 

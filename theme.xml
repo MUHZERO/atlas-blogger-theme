@@ -11,7 +11,28 @@ if(typeof document!='undefined'){var h=document.documentElement,l;try{l=localSto
 if(typeof module!='undefined')module.exports={pickLang};
 //]]>
 </script>
-<title><data:view.title.escaped/></title>
+<!-- title: home = blog title, post or page = its title + blog title, any other view keeps Blogger's view title -->
+<title><b:if cond='data:view.isSingleItem'><data:blog.pageName.escaped/> — <data:blog.title.escaped/><b:elseif cond='data:view.isHomepage'/><data:blog.title.escaped/><b:else/><data:view.title.escaped/></b:if></title>
+<!-- description: home = blog description, post or page = search description else snippet (data:view.description) -->
+<b:if cond='data:view.isSingleItem'>
+  <b:if cond='data:view.description'><meta expr:content='data:view.description' name='description'/><meta expr:content='data:view.description' property='og:description'/></b:if>
+<b:elseif cond='data:blog.metaDescription'/>
+  <meta expr:content='data:blog.metaDescription' name='description'/><meta expr:content='data:blog.metaDescription' property='og:description'/>
+</b:if>
+<link expr:href='data:view.url.canonical' rel='canonical'/>
+<!-- Open Graph and Twitter card; og:image only on posts (a widget image is not readable from the head) -->
+<meta expr:content='data:view.url.canonical' property='og:url'/>
+<meta expr:content='data:blog.title' property='og:site_name'/>
+<meta expr:content='data:blog.locale' property='og:locale'/>
+<b:if cond='data:view.isSingleItem'>
+  <meta expr:content='data:blog.pageName + &quot; — &quot; + data:blog.title' property='og:title'/>
+  <meta content='article' property='og:type'/>
+  <b:if cond='data:blog.postImageUrl'><meta expr:content='data:blog.postImageUrl' property='og:image'/><meta content='summary_large_image' name='twitter:card'/><b:else/><meta content='summary' name='twitter:card'/></b:if>
+<b:else/>
+  <meta expr:content='data:blog.title' property='og:title'/>
+  <meta content='website' property='og:type'/>
+  <meta content='summary' name='twitter:card'/>
+</b:if>
 <!-- lists: followed, not indexed -->
 <b:if cond='data:view.isLabelSearch or data:view.isSearch or data:view.isArchive'><meta content='noindex,follow' name='robots'/></b:if>
 <link href='https://fonts.googleapis.com' rel='preconnect'/>
