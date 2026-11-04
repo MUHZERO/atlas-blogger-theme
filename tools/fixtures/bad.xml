@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html [<!ENTITY a "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"><!ENTITY b "&a;&a;&a;&a;&a;&a;&a;&a;&a;&a;"><!ENTITY c "&b;&b;&b;&b;&b;&b;&b;">]>
+<html xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" b:css="true" b:js="true" b:layoutsVersion="2" b:defaultwidgetversion="1">
+  <head><link href="https://evil.example/x"/><style>missing</style></head>
+  <body>
+    <b:section id="hero"/><b:section id="header"/>
+    <svg><symbol id="same"/><symbol id="same"/></svg>
+    <script src="https://fonts.googleapis.com/x"></script>
+    <script id="atlas-js">&c;<![CDATA[/* 😀 */]]></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" b:css="false" b:js="false" b:layoutsVersion="3" b:defaultwidgetversion="2">
+  <head><style>html[lang=fr] [lang=ar], html[lang=ar] [lang=fr]{display:none}</style></head>
+  <body>
+    <b:section id="header"/><b:section id="hero"/><b:section id="marquee"/><b:section id="services"/><b:section id="beforeafter"/><b:section id="main"/><b:section id="numbers"/><b:section id="reviews"/><b:section id="team"/><b:section id="contact"/>
+    <svg><symbol id="one"/></svg>
+    <script id="atlas-js"><![CDATA[module.exports = {};]]></script>
+  </body>
+</html>
