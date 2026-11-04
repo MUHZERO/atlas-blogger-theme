@@ -168,6 +168,11 @@ def rule_hero_lcp(text: str, root) -> list[str]:
     return ["fetchpriority must sit inside section hero"]
 
 
+def rule_ba_ltr(text: str, root) -> list[str]:
+    rule = re.search(r"(?:^|[}\s])\.ba\{([^}]*)\}", text)
+    return [] if rule and "direction:ltr" in rule.group(1) else [".ba rule must contain direction:ltr"]
+
+
 RULES = [
     ("well_formed", rule_well_formed),
     ("html_attrs", rule_html_attrs),
@@ -182,6 +187,7 @@ RULES = [
     ("jsonld_guarded", rule_jsonld_guarded),
     ("nav_absolute", rule_nav_absolute),
     ("hero_lcp", rule_hero_lcp),
+    ("ba_ltr", rule_ba_ltr),
 ]
 
 

@@ -34,6 +34,10 @@ class ThemeCheckerTests(unittest.TestCase):
         text = (FIXTURES / "ok.xml").read_text().replace(' fetchpriority="high"', "").replace("<body>", '<body><img fetchpriority="high"/>')
         self.assertIn("hero_lcp: fetchpriority must sit inside section hero", "\n".join(check_text(text)))
 
+    def test_ba_ltr_reads_the_ba_rule_only(self):
+        text = (FIXTURES / "ok.xml").read_text().replace(".ba{position:relative;direction:ltr}", ".ba{position:relative}.lang{direction:ltr}")
+        self.assertIn("ba_ltr: .ba rule must contain direction:ltr", "\n".join(check_text(text)))
+
     def test_also_missing_path_fails(self):
         self.assertEqual(main([str(FIXTURES / "ok.xml"), "--also", "does-not-exist"]), 1)
 

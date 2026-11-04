@@ -154,6 +154,62 @@ html[dir=rtl] .mq-track{animation-direction:reverse}
 .mq-track>span::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent-2)}
 @keyframes mq{to{transform:translateX(-50%)}}
 
+/* services bento: Image5 = heading + big tile, HTML1 = small tiles (init() adds the icon) */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto;grid-auto-rows:220px;gap:16px;padding:96px 0}
+.bento .widget{display:contents}
+.bento .hd{grid-column:1/-1}
+.bento h2{margin-bottom:24px}
+.tile{position:relative;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s}
+.tile:hover,.js .tile.in:hover{transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(0,0,0,.18)}
+.tile>h3{margin-top:auto}
+.tile .ico{width:48px;height:48px;border-radius:14px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.tile h3{font-size:18px;font-weight:600}
+.tile p{font-size:14px;color:var(--muted)}
+.tile.big{grid-column:span 2;grid-row:span 2;color:#fff;border:0}
+.tile.big img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.tile.big:hover img{transform:scale(1.06)}
+.tile.big::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 60%)}
+.tile.big>*:not(img){position:relative;z-index:2}
+.tile.big .ico{background:rgba(255,255,255,.15);color:#fff;backdrop-filter:blur(6px)}
+.tile.big h3{font-size:26px}
+.tile.big p{color:rgba(255,255,255,.8)}
+.tile.wide{grid-column:span 2;background:var(--accent);color:#fff;border:0}
+.tile.wide .ico{background:rgba(255,255,255,.14);color:#fff}
+.tile.wide p{color:rgba(255,255,255,.75)}
+@media (max-width:960px){
+  .bento{grid-template-columns:1fr 1fr;grid-auto-rows:190px}
+}
+@media (max-width:560px){
+  .bento{grid-template-columns:1fr;grid-auto-rows:auto;padding:72px 0}
+  .tile{min-height:150px;gap:24px}
+  .tile>h3+p{margin-top:-24px}
+  .tile.big,.tile.wide{grid-column:auto;grid-row:auto}
+  .tile.big{min-height:320px}
+}
+
+/* before / after: LinkList4 = text column; Image6 and Image7 stack in one cell, Image7's range drives --pos */
+.ba-wrap{display:grid;grid-template-columns:1fr 1.4fr;grid-template-areas:"t b";gap:56px;align-items:center;padding-bottom:96px}
+.ba-wrap .LinkList{grid-area:t}
+.ba-wrap .Image{grid-area:b}
+.ba{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;direction:ltr;--pos:50%;user-select:none}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba .before{filter:grayscale(1) contrast(.85) brightness(.85) sepia(.25)}
+.ba .after{clip-path:inset(0 0 0 var(--pos))}
+.ba .handle{position:absolute;z-index:1;top:0;bottom:0;left:var(--pos);width:2px;background:#fff;transform:translateX(-1px);pointer-events:none}
+.ba .handle i{position:absolute;top:50%;left:50%;width:46px;height:46px;border-radius:50%;background:#fff;color:var(--ink);transform:translate(-50%,-50%);display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.ba .tag{position:absolute;z-index:1;top:16px;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:600;backdrop-filter:blur(6px)}
+.ba .tag.l{left:16px}.ba .tag.r{right:16px}
+.ba input{position:absolute;z-index:2;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.steps{display:grid;gap:4px;margin-top:8px;counter-reset:s}
+.step{display:flex;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);font-weight:600}
+.step::before{counter-increment:s;content:"0" counter(s);font-size:13px;color:var(--accent);font-weight:700;min-width:24px}
+@media (max-width:960px){
+  .ba-wrap{grid-template-columns:1fr;grid-template-areas:"t" "b";gap:32px}
+}
+@media (max-width:560px){
+  .ba-wrap{padding-bottom:72px}
+}
+
 /* contact band: Image1 is the background, LinkList1 the content */
 .contact-wrap{margin-bottom:24px}
 .cta-band{position:relative;isolation:isolate;border-radius:28px;overflow:hidden;color:#fff;background:var(--accent)}
@@ -288,8 +344,69 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </b:includable>
     </b:widget>
   </b:section>
-  <b:section id='services' showaddelement='yes'/>
-  <b:section id='beforeafter' showaddelement='yes'/>
+  <div class='wrap'>
+  <!-- Image5: big tile, TITLE and CAPTION "FR | AR", LINK optional.
+       HTML1: small tiles, <div class="tile" data-icon="paint"><h3>...</h3><p>...</p></div>;
+       icons: paint tile drop bolt shield clock chat home (other = home); class "tile wide" = accent tile over two columns. -->
+  <b:section class='bento' id='services' showaddelement='yes'>
+    <b:widget id='Image5' locked='false' title='Service principal' type='Image' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isHomepage'>
+          <div class='hd'>
+            <div class='eyebrow rv'><span lang='fr'>Services</span><span lang='ar'>الخدمات</span></div>
+            <h2 class='rv'><span lang='fr'>Ce que nous faisons</span><span lang='ar'>ماذا نقدم</span></h2>
+          </div>
+          <b:if cond='data:sourceUrl'>
+            <a class='tile big rv' expr:href='data:link ? data:link : &quot;#contact&quot;'>
+              <img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1000)' expr:srcset='sourceSrcset(data:sourceUrl, [600, 1000])' expr:width='data:width' loading='lazy' sizes='(max-width:560px) 100vw, 50vw'/>
+              <div class='ico'><svg><use href='#i-home'/></svg></div>
+              <div><h3 class='bi'><data:title/></h3><b:if cond='data:caption'><p class='bi'><data:caption/></p></b:if></div>
+            </a>
+          </b:if>
+        </b:if>
+      </b:includable>
+    </b:widget>
+    <b:widget id='HTML1' locked='false' title='Services' type='HTML' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isHomepage'><data:content/></b:if>
+      </b:includable>
+    </b:widget>
+  </b:section>
+  <!-- LinkList4 items: NAME = step "FR | AR", TARGET unused. Image6 = before, Image7 = after; TITLE = tag "FR | AR". -->
+  <b:section class='ba-wrap' id='beforeafter' showaddelement='yes'>
+    <b:widget id='LinkList4' locked='false' title='Étapes' type='LinkList' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isHomepage'>
+          <div class='eyebrow rv'><span lang='fr'>Avant / Après</span><span lang='ar'>قبل / بعد</span></div>
+          <h2 class='rv'><span lang='fr'>Glissez pour voir la différence</span><span lang='ar'>اسحب لترى الفرق</span></h2>
+          <div class='steps rv'><b:loop values='data:links' var='link'><div class='step bi'><data:link.name/></div></b:loop></div>
+        </b:if>
+      </b:includable>
+    </b:widget>
+    <b:widget id='Image6' locked='false' title='Avant | قبل' type='Image' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isHomepage and data:sourceUrl'>
+          <div class='ba rv'>
+            <img alt='' class='before' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1200)' expr:srcset='sourceSrcset(data:sourceUrl, [600, 900, 1200])' expr:width='data:width' loading='lazy' sizes='(max-width:960px) 100vw, 58vw'/>
+            <b:if cond='data:title'><span class='tag l bi'><data:title/></span></b:if>
+          </div>
+        </b:if>
+      </b:includable>
+    </b:widget>
+    <b:widget id='Image7' locked='false' title='Après | بعد' type='Image' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isHomepage and data:sourceUrl'>
+          <div class='ba rv'>
+            <img alt='' class='after' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1200)' expr:srcset='sourceSrcset(data:sourceUrl, [600, 900, 1200])' expr:width='data:width' loading='lazy' sizes='(max-width:960px) 100vw, 58vw'/>
+            <b:if cond='data:title'><span class='tag r bi'><data:title/></span></b:if>
+            <div class='handle'><i><svg><use href='#i-lr'/></svg></i></div>
+            <input aria-label='Avant / Après' max='100' min='0' type='range' value='50'/>
+          </div>
+        </b:if>
+      </b:includable>
+    </b:widget>
+  </b:section>
+  </div>
   <b:section id='main' showaddelement='yes'>
     <b:widget id='Blog1' type='Blog' version='2' locked='true' title='Blog posts'>
       <b:includable id='main'><!-- Task 6 fills the post list and post page --></b:includable>
@@ -404,7 +521,7 @@ function setLang(l, keep){
     if (on && t) { t.style.left = b.offsetLeft + 'px'; t.style.width = b.offsetWidth + 'px'; }
   });
 }
-/* slider position after one step, wrapping both ways */
+/* slider step, wraps both ways */
 function nextIndex(i, n, step){ return (i + step + n) % n; }
 function init(){
   var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
@@ -431,13 +548,13 @@ function init(){
   addEventListener('scroll', solid, {passive: true}); solid();
   $$('[data-bi]').forEach(function(el){ bi(el, el.textContent.trim()); });
   $$('[data-year]').forEach(function(el){ el.textContent = '\u00a9 ' + new Date().getFullYear(); });
-  /* hero: dots and timer only for 2+ slides; no autoplay with reduced motion */
-  var sl = $$('.slide'), n = sl.length, dots = document.querySelector('.hero .dots'), tm;
+  /* hero: dots + timer for 2+ slides, no autoplay if reduced motion */
+  var sl = $$('.slide'), n = sl.length, dots = $$('.hero .dots')[0], tm;
   var show = function(i){
     sl.forEach(function(s, k){ s.classList.toggle('on', k == i); });
     if (n < 2 || !dots) return;
     [].forEach.call(dots.children, function(d, k){ d.className = ''; if (k == i) { void d.offsetWidth; d.className = 'on'; } });
-    document.querySelector('.hero .counter').textContent = '0' + (i + 1) + ' / 0' + n;
+    $$('.hero .counter')[0].textContent = '0' + (i + 1) + ' / 0' + n;
     clearTimeout(tm);
     if (!matchMedia('(prefers-reduced-motion:reduce)').matches) tm = setTimeout(function(){ show(nextIndex(i, n, 1)); }, 6000);
   };
@@ -446,9 +563,17 @@ function init(){
     dots.onclick = function(e){ var k = [].indexOf.call(dots.children, e.target); if (k > -1) show(k); };
   }
   show(0);
-  /* marquee: four copies, one half covers wide screens */
+  /* marquee: 4 copies, half covers wide screens */
   $$('.mq-track').forEach(function(t){ t.innerHTML += t.innerHTML; t.innerHTML += t.innerHTML; });
-  /* reveal once an element enters the viewport */
+  /* tile icon from data-icon, unknown = home */
+  $$('.tile[data-icon]').forEach(function(t){
+    var i = t.getAttribute('data-icon');
+    t.insertAdjacentHTML('afterbegin', '<div class="ico"><svg><use href="#i-' + (/^(paint|tile|drop|bolt|shield|clock|chat|home)$/.test(i) ? i : 'home') + '"/></svg></div>');
+    t.className += ' rv';
+  });
+  var r = $$('.ba input')[0];
+  if (r) r.oninput = function(){ r.parentNode.style.setProperty('--pos', r.value + '%'); };
+  /* reveal on entering the viewport */
   var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold: .15});
   $$('.rv').forEach(function(el){ io.observe(el); });
   var f = document.getElementById('wa-form');
