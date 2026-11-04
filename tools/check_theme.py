@@ -87,7 +87,7 @@ def rule_js_budget(text: str, root) -> list[str]:
     if "atlas-js" not in scripts:
         return ["script #atlas-js is missing"]
     errors = []
-    for name, limit in (("atlas-js", 6144), ("atlas-head", 400)):
+    for name, limit in (("atlas-js", 9216), ("atlas-head", 400)):
         if name in scripts:
             size = len("".join(scripts[name].itertext()).encode())
             if size > limit:

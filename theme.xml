@@ -135,11 +135,14 @@ html[lang=ar] .hero h1{line-height:1.25;letter-spacing:0}
 @keyframes fade{from{opacity:0;transform:translateY(14px)}}
 .hero-foot{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,.2)}
 .dots{display:flex;gap:8px}
-.dots button{width:36px;height:3px;border:0;background:rgba(255,255,255,.3);padding:0;position:relative;overflow:hidden}
-.dots button.on::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:left;animation:bar 6s linear forwards}
+/* 27px tall hit area, only the 3px content box is painted */
+.dots{margin:-12px 0}
+.dots button{width:36px;height:27px;border:0;background:rgba(255,255,255,.3) content-box;padding:12px 0;position:relative;overflow:hidden}
+.dots button.on::after{content:"";position:absolute;inset:12px 0;background:#fff;transform-origin:left;animation:bar 6s linear forwards}
 html[dir=rtl] .dots button.on::after{transform-origin:right}
+.hero:hover .dots .on::after,.hero:focus-within .dots .on::after{animation-play-state:paused}
 @keyframes bar{from{transform:scaleX(0)}}
-.counter{font-size:14px;opacity:.8;font-variant-numeric:tabular-nums}
+.counter{font-size:14px;opacity:.8;font-variant-numeric:tabular-nums;direction:ltr}
 @media (max-width:560px){
   .hero .cta{flex-direction:column}
   .hero-foot .counter{display:none}
@@ -159,7 +162,7 @@ html[dir=rtl] .mq-track{animation-direction:reverse}
 .bento .widget{display:contents}
 .bento .hd{grid-column:1/-1}
 .bento h2{margin-bottom:24px}
-.tile{position:relative;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s}
+.tile{position:relative;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:opacity .8s var(--ease) var(--d,0s),transform .5s var(--ease),box-shadow .5s}
 .tile:hover,.js .tile.in:hover{transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(0,0,0,.18)}
 .tile>h3{margin-top:auto}
 .tile .ico{width:48px;height:48px;border-radius:14px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
@@ -301,6 +304,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </header>
   <!-- Image2: TITLE = h1 "FR | AR", CAPTION = subline "FR | AR", LINK = primary button. Image3, Image4: image only. -->
   <b:section class='hero' id='hero' maxwidgets='3' showaddelement='yes'>
+    <!-- Image2 must stay first in this section: it carries the hero text and the only fetchpriority image -->
     <b:widget id='Image2' locked='false' title='Hero 1' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
@@ -308,7 +312,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <div class='slide on'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSrcset(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' fetchpriority='high' sizes='100vw'/></div>
           </b:if>
           <div class='wrap hero-in'>
-            <h1><span class='line'><span class='bi' style='--d:.1s'><data:title/></span></span></h1>
+            <b:if cond='data:title'><h1><span class='line'><span class='bi' style='--d:.1s'><data:title/></span></span></h1></b:if>
             <b:if cond='data:caption'><p class='bi'><data:caption/></p></b:if>
             <div class='cta'>
               <a class='btn btn-light' expr:href='data:link ? data:link : &quot;#contact&quot;'><span lang='fr'>Demander un devis</span><span lang='ar'>اطلب عرض سعر</span><svg class='flip'><use href='#i-arrow'/></svg></a>
@@ -339,7 +343,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <b:widget id='LinkList3' locked='false' title='Marquee' type='LinkList' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
-          <div aria-hidden='true' class='mq-track'><b:loop values='data:links' var='link'><span class='bi'><data:link.name/></span></b:loop></div>
+          <div class='mq-track'><b:loop values='data:links' var='link'><span class='bi'><data:link.name/></span></b:loop></div>
         </b:if>
       </b:includable>
     </b:widget>
@@ -400,7 +404,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <img alt='' class='after' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1200)' expr:srcset='sourceSrcset(data:sourceUrl, [600, 900, 1200])' expr:width='data:width' loading='lazy' sizes='(max-width:960px) 100vw, 58vw'/>
             <b:if cond='data:title'><span class='tag r bi'><data:title/></span></b:if>
             <div class='handle'><i><svg><use href='#i-lr'/></svg></i></div>
-            <input aria-label='Avant / Après' max='100' min='0' type='range' value='50'/>
+            <input aria-label='Avant / Après' data-ar='قبل / بعد' data-fr='Avant / Après' max='100' min='0' type='range' value='50'/>
           </div>
         </b:if>
       </b:includable>
@@ -509,12 +513,12 @@ function applyBi(root){
     if (el.textContent.indexOf(' | ') > -1) bi(el, el.textContent);
   });
 }
-/* switch language: html lang/dir, placeholders, pressed button + sliding thumb; keep = remember the choice */
+/* switch language: html lang/dir, placeholders + aria-labels, pressed button + sliding thumb; keep = remember the choice */
 function setLang(l, keep){
   var h = document.documentElement, t = document.querySelector('#lang .thumb');
   h.lang = l; h.dir = l == 'ar' ? 'rtl' : 'ltr';
   if (keep) try { localStorage['atlas-lang'] = l; } catch (e) {}
-  [].forEach.call(document.querySelectorAll('[data-ar]'), function(el){ el.placeholder = el.getAttribute('data-' + l); });
+  [].forEach.call(document.querySelectorAll('[data-ar]'), function(el){ var v = el.getAttribute('data-' + l); el.placeholder = v; el.setAttribute('aria-label', v); });
   [].forEach.call(document.querySelectorAll('#lang button'), function(b){
     var on = b.getAttribute('data-lang') == l;
     b.setAttribute('aria-pressed', on);
@@ -548,34 +552,6 @@ function init(){
   addEventListener('scroll', solid, {passive: true}); solid();
   $$('[data-bi]').forEach(function(el){ bi(el, el.textContent.trim()); });
   $$('[data-year]').forEach(function(el){ el.textContent = '\u00a9 ' + new Date().getFullYear(); });
-  /* hero: dots + timer for 2+ slides, no autoplay if reduced motion */
-  var sl = $$('.slide'), n = sl.length, dots = $$('.hero .dots')[0], tm;
-  var show = function(i){
-    sl.forEach(function(s, k){ s.classList.toggle('on', k == i); });
-    if (n < 2 || !dots) return;
-    [].forEach.call(dots.children, function(d, k){ d.className = ''; if (k == i) { void d.offsetWidth; d.className = 'on'; } });
-    $$('.hero .counter')[0].textContent = '0' + (i + 1) + ' / 0' + n;
-    clearTimeout(tm);
-    if (!matchMedia('(prefers-reduced-motion:reduce)').matches) tm = setTimeout(function(){ show(nextIndex(i, n, 1)); }, 6000);
-  };
-  if (dots && n > 1) {
-    sl.forEach(function(s, k){ dots.innerHTML += '<button type="button" aria-label="' + (k + 1) + '"></button>'; });
-    dots.onclick = function(e){ var k = [].indexOf.call(dots.children, e.target); if (k > -1) show(k); };
-  }
-  show(0);
-  /* marquee: 4 copies, half covers wide screens */
-  $$('.mq-track').forEach(function(t){ t.innerHTML += t.innerHTML; t.innerHTML += t.innerHTML; });
-  /* tile icon from data-icon, unknown = home */
-  $$('.tile[data-icon]').forEach(function(t){
-    var i = t.getAttribute('data-icon');
-    t.insertAdjacentHTML('afterbegin', '<div class="ico"><svg><use href="#i-' + (/^(paint|tile|drop|bolt|shield|clock|chat|home)$/.test(i) ? i : 'home') + '"/></svg></div>');
-    t.className += ' rv';
-  });
-  var r = $$('.ba input')[0];
-  if (r) r.oninput = function(){ r.parentNode.style.setProperty('--pos', r.value + '%'); };
-  /* reveal on entering the viewport */
-  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold: .15});
-  $$('.rv').forEach(function(el){ io.observe(el); });
   var f = document.getElementById('wa-form');
   if (f && wa) {
     f.hidden = false;
@@ -585,6 +561,45 @@ function init(){
       window.open(waUrl(wa, ['Nom: ' + v('name'), 'Tel: ' + v('phone'), v('msg')]), '_blank', 'noopener');
     });
   }
+  /* hero: dots and timer only for 2+ slides; no autoplay with reduced motion; hover or focus pauses */
+  var sl = $$('.slide'), n = sl.length, dots = $$('.hero .dots')[0], cur = 0, hold = 0, tm;
+  var show = function(i){
+    cur = i;
+    sl.forEach(function(s, k){ s.classList.toggle('on', k == i); });
+    if (n < 2 || !dots) return;
+    [].forEach.call(dots.children, function(d, k){ d.className = ''; if (k == i) { void d.offsetWidth; d.className = 'on'; } });
+    $$('.hero .counter')[0].textContent = '0' + (i + 1) + ' / 0' + n;
+    clearTimeout(tm);
+    if (!hold && !matchMedia('(prefers-reduced-motion:reduce)').matches) tm = setTimeout(function(){ show(nextIndex(i, n, 1)); }, 6000);
+  };
+  if (dots && n > 1) {
+    sl.forEach(function(s, k){ dots.innerHTML += '<button type="button" aria-label="' + (k + 1) + '"></button>'; });
+    dots.onclick = function(e){ var k = [].indexOf.call(dots.children, e.target); if (k > -1) show(k); };
+    var hero = $$('.hero')[0];
+    ['mouseenter', 'focusin'].forEach(function(t){ hero.addEventListener(t, function(){ hold = 1; clearTimeout(tm); }); });
+    /* resume restarts the current slide's bar and timer together */
+    ['mouseleave', 'focusout'].forEach(function(t){ hero.addEventListener(t, function(){ hold = 0; show(cur); }); });
+  }
+  show(0);
+  /* marquee: four copies so one half always covers wide screens; only the copies are hidden from screen readers */
+  $$('.mq-track').forEach(function(t){
+    var k = t.children.length, h = t.innerHTML;
+    t.innerHTML += h + h + h;
+    [].slice.call(t.children, k).forEach(function(c){ c.setAttribute('aria-hidden', 'true'); });
+  });
+  /* service tiles: icon from data-icon (whitelist, anything else = home), staggered reveal */
+  $$('.tile[data-icon]').forEach(function(t, k){
+    var i = t.getAttribute('data-icon');
+    t.insertAdjacentHTML('afterbegin', '<div class="ico"><svg><use href="#i-' + (/^(paint|tile|drop|bolt|shield|clock|chat|home)$/.test(i) ? i : 'home') + '"/></svg></div>');
+    t.className += ' rv';
+    t.style.setProperty('--d', k % 2 ? '.16s' : '.08s');
+  });
+  /* before / after: the range sets --pos on Image7's box */
+  var r = $$('.ba input')[0];
+  if (r) r.oninput = function(){ r.parentNode.style.setProperty('--pos', r.value + '%'); };
+  /* reveal on entering the viewport; without IntersectionObserver everything shows at once (kept last in init) */
+  var io = window.IntersectionObserver && new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold: .15});
+  $$('.rv').forEach(function(el){ io ? io.observe(el) : el.classList.add('in'); });
 }
 if (typeof document !== 'undefined') init();
 if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd, setLang: setLang, applyBi: applyBi, nextIndex: nextIndex};
