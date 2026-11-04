@@ -51,6 +51,7 @@ img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer}
 svg{width:20px;height:20px;flex:none}
+[hidden]{display:none!important}
 html[dir=rtl] .flip{transform:scaleX(-1)}
 
 /* bilingual: one span per language, the html lang decides */
@@ -140,35 +141,39 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </b:if>
       </b:includable>
     </b:widget>
+    <!-- LinkList1 items: NAME = display text ("FR | AR" allowed), TARGET = key.
+         wa.me or api.whatsapp.com = WhatsApp, tel:... = phone,
+         a Google Maps link = address, #hours = opening hours. -->
     <b:widget id='LinkList1' locked='true' title='Contact' type='LinkList' version='2' visible='true'>
-      <!-- items: whatsapp | phone | "hours: FR | AR" | "address: FR | AR" -->
       <b:includable id='main'>
         <div>
           <div class='eyebrow'><span lang='fr'>Contact</span><span lang='ar'>اتصل بنا</span></div>
           <h2><span lang='fr'>Parlons de votre projet</span><span lang='ar'>حدثنا عن مشروعك</span></h2>
-          <a class='btn btn-light' data-wa='' href='#contact'><svg><use href='#i-chat'/></svg>WhatsApp</a>
+          <b:loop values='data:links' var='link'>
+            <b:if cond='data:link.target contains &quot;wa.me&quot; or data:link.target contains &quot;api.whatsapp.com&quot;'>
+              <a class='btn btn-light' data-wa='' expr:data-wa-src='data:link.target' href='#contact'><svg><use href='#i-chat'/></svg>WhatsApp</a>
+            </b:if>
+          </b:loop>
           <div class='rows'>
             <b:loop values='data:links' var='link'>
-              <b:if cond='data:link.name contains &quot;whatsapp&quot;'>
-                <a aria-hidden='true' expr:href='data:link.target' hidden='hidden' id='wa-src' tabindex='-1'></a>
-              <b:elseif cond='data:link.name contains &quot;phone&quot;'/>
+              <b:if cond='data:link.target contains &quot;wa.me&quot; or data:link.target contains &quot;api.whatsapp.com&quot;'>
+              <b:elseif cond='data:link.target contains &quot;tel:&quot;'/>
                 <a class='r' expr:href='data:link.target'><svg><use href='#i-phone'/></svg><span class='ltr' data-key='phone'><data:link.name/></span></a>
-              <b:elseif cond='data:link.name contains &quot;hours:&quot;'/>
-                <div class='r'><svg><use href='#i-clock'/></svg><span data-key='hours'><data:link.name/></span></div>
-              <b:elseif cond='data:link.name contains &quot;address:&quot;'/>
+              <b:elseif cond='data:link.target contains &quot;google.&quot; and data:link.target contains &quot;maps&quot;'/>
                 <a class='r' expr:href='data:link.target' rel='noopener' target='_blank'><svg><use href='#i-pin'/></svg><span data-key='address'><data:link.name/></span></a>
+              <b:elseif cond='data:link.target == &quot;#hours&quot;'/>
+                <div class='r'><svg><use href='#i-clock'/></svg><span data-key='hours'><data:link.name/></span></div>
               </b:if>
             </b:loop>
           </div>
         </div>
-        <form id='wa-form'>
+        <!-- hidden until init() finds a WhatsApp target; a textarea needs no content (Blogger's own ContactForm writes it self-closing) -->
+        <form hidden='hidden' id='wa-form'>
           <input aria-label='Nom' autocomplete='name' data-ar='الاسم' data-fr='Nom' name='name' placeholder='Nom' required='required'/>
           <input aria-label='Téléphone' autocomplete='tel' data-ar='الهاتف' data-fr='Téléphone' name='phone' placeholder='Téléphone' type='tel'/>
           <textarea aria-label='Message' data-ar='الرسالة' data-fr='Message' name='msg' placeholder='Message'></textarea>
           <button class='btn btn-primary' type='submit'><span lang='fr'>Envoyer</span><span lang='ar'>إرسال</span></button>
         </form>
-        <!-- LocalBusiness, server-rendered; optional keys only when the item exists -->
-        <script type='application/ld+json'>{"@context":"https://schema.org","@type":"LocalBusiness","name":"<data:blog.title.jsonEscaped/>","url":"<data:blog.homepageUrl/>"<b:loop values='data:links' var='link'><b:if cond='data:link.name contains &quot;phone&quot;'>,"telephone":"<data:link.target/>"<b:elseif cond='data:link.name contains &quot;address:&quot;'/>,"address":"<data:link.name.jsonEscaped/>"<b:elseif cond='data:link.name contains &quot;hours:&quot;'/>,"openingHours":"<data:link.name.jsonEscaped/>"</b:if></b:loop>}</script>
       </b:includable>
     </b:widget>
   </b:section>
@@ -176,10 +181,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <footer>
   <div class='wrap'>
-    <span>&#169; <span data-year=''></span> <span data-bi=''><data:blog.title/></span></span>
+    <span><span data-year=''>&#169;</span> <span data-bi=''><data:blog.title/></span></span>
     <a href='https://muhdroid.com'><span lang='fr'>Thème par</span><span lang='ar'>قالب من</span> MuhDroid</a>
   </div>
 </footer>
+
+<!-- LocalBusiness: clean values from the server, phone and address added by init() -->
+<script id='atlas-ld' type='application/ld+json'>{"@context":"https://schema.org","@type":"LocalBusiness","name":"<data:blog.title.jsonEscaped/>","url":"<data:blog.homepageUrl.jsonEscaped/>"}</script>
 
 <a aria-label='WhatsApp' class='fab' data-wa='' href='#contact'><svg><use href='#i-chat'/></svg></a>
 
@@ -192,7 +200,15 @@ function splitBi(s){
 }
 /* WhatsApp link with a prefilled message; any other base is returned as is */
 function waUrl(base, lines){
-  return base.indexOf('wa.me') < 0 ? base : base + '?text=' + encodeURIComponent(lines.join('\n'));
+  if (!/wa\.me|api\.whatsapp\.com/.test(base)) return base;
+  return base + (base.indexOf('?') < 0 ? '?' : '&') + 'text=' + encodeURIComponent(lines.join('\n'));
+}
+/* LocalBusiness keys only for the contact rows that exist; FR half of "FR | AR" */
+function buildLd(base, items){
+  var ld = Object.assign({}, base);
+  if (items.phone) ld.telephone = splitBi(items.phone).fr;
+  if (items.address) ld.address = {'@type': 'PostalAddress', streetAddress: splitBi(items.address).fr, addressCountry: 'MA'};
+  return ld;
 }
 /* replace an element's text with one span per language */
 function bi(el, text){
@@ -205,25 +221,29 @@ function bi(el, text){
 }
 function init(){
   var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
-  var src = document.getElementById('wa-src'), wa = src ? src.getAttribute('href') : '';
+  var src = document.querySelector('[data-wa-src]'), wa = src ? src.getAttribute('data-wa-src') : '';
   if (wa) $$('[data-wa]').forEach(function(a){ a.href = wa; a.target = '_blank'; a.rel = 'noopener'; });
-  /* contact rows: "hours: Lun | ..." -> drop the key, split the languages */
+  var items = {}, ld = document.getElementById('atlas-ld');
   $$('[data-key]').forEach(function(el){
-    var t = el.textContent.trim(), i = t.indexOf(': ');
-    if (i >= 0) bi(el, t.slice(i + 2));
-    else if (el.getAttribute('data-key') === 'phone') el.textContent = (el.parentNode.getAttribute('href') || t).replace(/^tel:/, '');
+    var t = el.textContent.trim();
+    items[el.getAttribute('data-key')] = t;
+    bi(el, t);
   });
+  if (ld) try { ld.textContent = JSON.stringify(buildLd(JSON.parse(ld.textContent), items)); } catch (e) {}
   $$('[data-bi]').forEach(function(el){ bi(el, el.textContent.trim()); });
-  $$('[data-year]').forEach(function(el){ el.textContent = new Date().getFullYear(); });
+  $$('[data-year]').forEach(function(el){ el.textContent = '\u00a9 ' + new Date().getFullYear(); });
   var f = document.getElementById('wa-form');
-  if (f) f.addEventListener('submit', function(e){
-    e.preventDefault();
-    var v = function(n){ return f.elements[n].value.trim(); };
-    window.open(waUrl(wa || '#contact', ['Nom: ' + v('name'), 'Tel: ' + v('phone'), v('msg')]), '_blank', 'noopener');
-  });
+  if (f && wa) {
+    f.hidden = false;
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var v = function(n){ return f.elements[n].value.trim(); };
+      window.open(waUrl(wa, ['Nom: ' + v('name'), 'Tel: ' + v('phone'), v('msg')]), '_blank', 'noopener');
+    });
+  }
 }
 if (typeof document !== 'undefined') init();
-if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl};
+if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd};
 //]]>
 </script>
 </body>

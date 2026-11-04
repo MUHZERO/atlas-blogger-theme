@@ -31,3 +31,18 @@ test('waUrl appends the encoded message to wa.me only', () => {
     'https://wa.me/212600000000?text=Nom%3A%20Sara%0AMsg%3A%20Salam');
   assert.equal(T.waUrl('#contact', ['x']), '#contact');
 });
+
+test('waUrl appends &text= to an api.whatsapp.com base', () => {
+  assert.equal(T.waUrl('https://api.whatsapp.com/send?phone=212600000000', ['a b']),
+    'https://api.whatsapp.com/send?phone=212600000000&text=a%20b');
+});
+
+test('buildLd adds telephone and PostalAddress from contact rows', () => {
+  const base = { '@type': 'LocalBusiness', name: 'Atlas' };
+  assert.deepEqual(T.buildLd(base, { phone: '+212 5 22 00 00 00', address: 'Maârif, Casablanca' }), {
+    ...base, telephone: '+212 5 22 00 00 00',
+    address: { '@type': 'PostalAddress', streetAddress: 'Maârif, Casablanca', addressCountry: 'MA' },
+  });
+  assert.deepEqual(T.buildLd(base, {}), base);
+  assert.equal(T.buildLd(base, { address: 'Maârif | المعاريف' }).address.streetAddress, 'Maârif');
+});
