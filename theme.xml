@@ -12,6 +12,8 @@ if(typeof module!='undefined')module.exports={pickLang};
 //]]>
 </script>
 <title><data:view.title.escaped/></title>
+<!-- lists: followed, not indexed -->
+<b:if cond='data:view.isLabelSearch or data:view.isSearch or data:view.isArchive'><meta content='noindex,follow' name='robots'/></b:if>
 <link href='https://fonts.googleapis.com' rel='preconnect'/>
 <link crossorigin='' href='https://fonts.gstatic.com' rel='preconnect'/>
 <link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>
@@ -213,6 +215,41 @@ html[dir=rtl] .mq-track{animation-direction:reverse}
   .ba-wrap{padding-bottom:72px}
 }
 
+/* projects: home carousel (Blog1), lists grid, post and static page, 404 */
+.projs{padding-bottom:96px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+.head h2{margin-bottom:0}
+.arrows{display:flex;gap:8px}
+.arrows button{width:50px;height:50px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;transition:background .3s,color .3s}
+.arrows button:hover{background:var(--ink);color:#fff}
+.track{display:grid;grid-auto-flow:column;grid-auto-columns:min(78%,400px);gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding-inline:max(16px,calc((100vw - var(--wrap))/2 + 16px));scroll-padding-inline:max(16px,calc((100vw - var(--wrap))/2 + 16px))}
+.track::-webkit-scrollbar{display:none}
+.proj{display:block;scroll-snap-align:start}
+.proj .img{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/5;background:var(--accent-soft)}
+.proj img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.proj:hover img{transform:scale(1.07)}
+.ph{height:100%;display:grid;place-items:center;color:var(--accent)}
+.ph svg{width:48px;height:48px;opacity:.5}
+.proj .badge{position:absolute;top:14px;inset-inline-start:14px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.9);font-size:12px;font-weight:600}
+.proj h3{font-size:17px;font-weight:600;margin-top:14px}
+.meta{font-size:13px;color:var(--muted)}
+.list,.post,.nf{padding-top:56px;padding-bottom:96px}
+.list h1,.post h1,.nf h1{font-size:clamp(32px,5vw,52px);line-height:1.1;font-weight:700;letter-spacing:-.02em;margin:10px 0 32px}
+html[lang=ar] .list h1,html[lang=ar] .post h1,html[lang=ar] .nf h1{line-height:1.3;letter-spacing:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:32px 20px}
+.empty{color:var(--muted)}
+.post{max-width:860px}
+.post .eyebrow{gap:12px}
+.post .eyebrow time{font-weight:500}
+.post-body{font-size:17px;overflow-wrap:anywhere}
+.post-body>*+*,.post-body div+div{margin-top:16px}
+.post-body img{width:100%;height:auto;border-radius:var(--radius);margin-block:16px}
+.post-body a:has(img){margin:0!important}
+.post-body iframe{max-width:100%}
+.post-foot{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
+.pager{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
+.pager .older{margin-inline-start:auto}
+
 /* contact band: Image1 is the background, LinkList1 the content */
 .contact-wrap{margin-bottom:24px}
 .cta-band{position:relative;isolation:isolate;border-radius:28px;overflow:hidden;color:#fff;background:var(--accent)}
@@ -253,7 +290,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .js .rv{opacity:1;transform:none}
-  html{scroll-behavior:auto}
+  html,.track{scroll-behavior:auto}
 }
 ]]></b:skin>
 </head>
@@ -412,8 +449,110 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </b:section>
   </div>
   <b:section id='main' showaddelement='yes'>
-    <b:widget id='Blog1' type='Blog' version='2' locked='true' title='Blog posts'>
-      <b:includable id='main'><!-- Task 6 fills the post list and post page --></b:includable>
+    <!-- Blog1: one label per post = its category; title "FR | AR"; body = <div lang="fr"> + <div lang="ar"> (none = shown in both) -->
+    <b:widget id='Blog1' locked='true' title='Blog posts' type='Blog' version='2' visible='true'>
+      <b:includable id='main'>
+        <b:if cond='data:view.isError'>
+          <div class='wrap nf'>
+            <div class='eyebrow'>404</div>
+            <h1><span lang='fr'>Page introuvable</span><span lang='ar'>الصفحة غير موجودة</span></h1>
+            <a class='btn btn-primary' expr:href='data:blog.homepageUrl'><svg><use href='#i-home'/></svg><span lang='fr'>Retour à l'accueil</span><span lang='ar'>العودة للرئيسية</span></a>
+          </div>
+        <b:elseif cond='data:view.isSingleItem'/>
+          <div class='wrap post'>
+            <b:loop values='data:posts' var='post'><b:include data='post' name='item'/></b:loop>
+            <b:if cond='data:view.isPost'><b:include name='pager'/></b:if>
+          </div>
+        <b:elseif cond='data:view.isHomepage'/>
+          <b:if cond='data:posts'>
+            <section class='projs' id='projets'>
+              <div class='wrap head'>
+                <div>
+                  <div class='eyebrow rv'><span lang='fr'>Réalisations</span><span lang='ar'>أعمالنا</span></div>
+                  <h2 class='rv'><span lang='fr'>Projets récents</span><span lang='ar'>آخر المشاريع</span></h2>
+                </div>
+                <div class='arrows'>
+                  <a class='btn btn-ghost' expr:href='data:blog.homepageUrl + &quot;search&quot;'><span lang='fr'>Tous les projets</span><span lang='ar'>كل المشاريع</span></a>
+                  <button aria-label='Précédent' data-dir='-1' type='button'><svg class='flip'><use href='#i-left'/></svg></button>
+                  <button aria-label='Suivant' data-dir='1' type='button'><svg class='flip'><use href='#i-right'/></svg></button>
+                </div>
+              </div>
+              <div class='track rv'><b:loop values='data:posts' var='post'><b:include data='post' name='projCard'/></b:loop></div>
+            </section>
+          </b:if>
+        <b:else/>
+          <!-- label, search, archive and older home pages: grid + noindex (head) -->
+          <div class='wrap list'>
+            <div class='eyebrow'><span lang='fr'>Réalisations</span><span lang='ar'>أعمالنا</span></div>
+            <b:if cond='data:view.isLabelSearch'>
+              <h1 class='bi'><data:view.search.label/></h1>
+              <!-- same split as the post h1 (includable item) -->
+              <script>
+//<![CDATA[
+!function(h){var t=h.textContent,i=t.indexOf(' | ');h.setAttribute('data-done','');if(i>-1){h.innerHTML='<span lang="fr"></span><span lang="ar"></span>';h.firstChild.textContent=t.slice(0,i).trim();h.lastChild.textContent=t.slice(i+3).trim()}}(document.currentScript.previousElementSibling)
+//]]>
+              </script>
+            <b:else/>
+              <h1><span lang='fr'>Tous les projets</span><span lang='ar'>كل المشاريع</span></h1>
+            </b:if>
+            <b:if cond='data:posts'>
+              <div class='grid'><b:loop values='data:posts' var='post'><b:include data='post' name='projCard'/></b:loop></div>
+            <b:else/>
+              <p class='empty'><span lang='fr'>Aucun projet pour le moment.</span><span lang='ar'>لا توجد مشاريع حاليا.</span></p>
+            </b:if>
+            <b:include name='pager'/>
+          </div>
+        </b:if>
+      </b:includable>
+      <!-- card: image 800x1000 or a neutral placeholder, first label as badge, year from the date (init) -->
+      <b:includable id='projCard' var='post'>
+        <a class='proj' expr:href='data:post.url'>
+          <div class='img'>
+            <b:if cond='data:post.featuredImage'>
+              <img alt='' expr:src='resizeImage(data:post.featuredImage, 800, &quot;4:5&quot;)' expr:srcset='sourceSrcset(data:post.featuredImage, [400, 800], &quot;4:5&quot;)' height='1000' loading='lazy' sizes='(max-width:560px) 80vw, 400px' width='800'/>
+            <b:else/>
+              <div class='ph'><svg><use href='#i-home'/></svg></div>
+            </b:if>
+            <b:loop index='i' values='data:post.labels' var='label'><b:if cond='data:i == 0'><span class='badge bi'><data:label.name/></span></b:if></b:loop>
+          </div>
+          <h3 class='bi'><data:post.title/></h3>
+          <time class='meta' expr:datetime='data:post.date.iso8601'><data:post.date/></time>
+        </a>
+      </b:includable>
+      <!-- post and static page; the script right after h1 splits the title before paint (atlas-js runs later) -->
+      <b:includable id='item' var='post'>
+        <article>
+          <b:if cond='data:view.isPost'>
+            <div class='eyebrow'>
+              <b:loop index='i' values='data:post.labels' var='label'><b:if cond='data:i == 0'><a class='bi' expr:href='data:label.url'><data:label.name/></a></b:if></b:loop>
+              <time class='meta' expr:datetime='data:post.date.iso8601'><data:post.date/></time>
+            </div>
+          </b:if>
+          <h1 class='bi'><data:post.title/></h1>
+          <script>
+//<![CDATA[
+!function(h){var t=h.textContent,i=t.indexOf(' | ');h.setAttribute('data-done','');if(i>-1){h.innerHTML='<span lang="fr"></span><span lang="ar"></span>';h.firstChild.textContent=t.slice(0,i).trim();h.lastChild.textContent=t.slice(i+3).trim()}}(document.currentScript.previousElementSibling)
+//]]>
+          </script>
+          <div class='post-body'><data:post.body/></div>
+          <b:if cond='data:view.isPost'>
+            <div class='post-foot'>
+              <a class='btn btn-primary' data-wa='' href='#contact'><svg><use href='#i-chat'/></svg><span lang='fr'>Demander un devis</span><span lang='ar'>اطلب عرض سعر</span></a>
+              <b:loop index='i' values='data:post.labels' var='label'><b:if cond='data:i == 0'><a class='btn btn-ghost' expr:href='data:label.url'><span lang='fr'>Projets similaires</span><span lang='ar'>مشاريع مشابهة</span><svg class='flip'><use href='#i-arrow'/></svg></a></b:if></b:loop>
+            </div>
+            <script type='application/ld+json'>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"<data:blog.title.jsonEscaped/>","item":"<data:blog.homepageUrl.jsonEscaped/>"},<b:if cond='data:post.labels'><b:loop index='i' values='data:post.labels' var='label'><b:if cond='data:i == 0'>{"@type":"ListItem","position":2,"name":"<data:label.name.jsonEscaped/>","item":"<data:label.url.jsonEscaped/>"},{"@type":"ListItem","position":3,</b:if></b:loop><b:else/>{"@type":"ListItem","position":2,</b:if>"name":"<data:post.title.jsonEscaped/>","item":"<data:post.url.jsonEscaped/>"}]}</script>
+          </b:if>
+        </article>
+      </b:includable>
+      <!-- newer / older: posts on an item page, result pages on a list -->
+      <b:includable id='pager'>
+        <b:if cond='data:newerPageUrl or data:olderPageUrl'>
+          <nav class='pager'>
+            <b:if cond='data:newerPageUrl'><a class='btn btn-ghost' expr:href='data:newerPageUrl'><svg class='flip'><use href='#i-left'/></svg><span lang='fr'>Plus récent</span><span lang='ar'>الأحدث</span></a></b:if>
+            <b:if cond='data:olderPageUrl'><a class='btn btn-ghost older' expr:href='data:olderPageUrl'><span lang='fr'>Plus ancien</span><span lang='ar'>الأقدم</span><svg class='flip'><use href='#i-right'/></svg></a></b:if>
+          </nav>
+        </b:if>
+      </b:includable>
     </b:widget>
   </b:section>
   <b:section id='numbers' showaddelement='yes'/>
@@ -527,6 +666,8 @@ function setLang(l, keep){
 }
 /* slider step, wraps both ways */
 function nextIndex(i, n, step){ return (i + step + n) % n; }
+/* carousel scrollLeft runs negative under rtl */
+function scrollSign(dir){ return dir == 'rtl' ? -1 : 1; }
 function init(){
   var $$ = function(s){ return [].slice.call(document.querySelectorAll(s)); };
   var src = document.querySelector('[data-wa-src]'), wa = src ? src.getAttribute('data-wa-src') : '';
@@ -597,12 +738,15 @@ function init(){
   /* before / after: the range sets --pos on Image7's box */
   var r = $$('.ba input')[0];
   if (r) r.oninput = function(){ r.parentNode.style.setProperty('--pos', r.value + '%'); };
+  /* projects carousel: one card per click, mirrored under rtl; cards show the year of their datetime */
+  $$('.arrows button').forEach(function(b){ b.onclick = function(){ var t = $$('.track')[0]; t.scrollBy({left: (t.firstElementChild.offsetWidth + 20) * b.getAttribute('data-dir') * scrollSign(document.documentElement.dir)}); }; });
+  $$('time.meta').forEach(function(t){ var y = (t.getAttribute('datetime') || '').slice(0, 4); if (y) t.textContent = y; });
   /* reveal on entering the viewport; without IntersectionObserver everything shows at once (kept last in init) */
   var io = window.IntersectionObserver && new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold: .15});
   $$('.rv').forEach(function(el){ io ? io.observe(el) : el.classList.add('in'); });
 }
 if (typeof document !== 'undefined') init();
-if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd, setLang: setLang, applyBi: applyBi, nextIndex: nextIndex};
+if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd, setLang: setLang, applyBi: applyBi, nextIndex: nextIndex, scrollSign: scrollSign};
 //]]>
 </script>
 </body>

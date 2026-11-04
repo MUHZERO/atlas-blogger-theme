@@ -38,6 +38,14 @@ class ThemeCheckerTests(unittest.TestCase):
         text = (FIXTURES / "ok.xml").read_text().replace(".ba{position:relative;direction:ltr}", ".ba{position:relative}.lang{direction:ltr}")
         self.assertIn("ba_ltr: .ba rule must contain direction:ltr", "\n".join(check_text(text)))
 
+    def test_post_h1_split_must_follow_immediately(self):
+        text = (FIXTURES / "ok.xml").read_text().replace('<h1 class="bi">T</h1>', '<h1 class="bi">T</h1><p/>')
+        self.assertIn("post_h1_inline_split: h1.bi in the Blog widget must be followed", "\n".join(check_text(text)))
+
+    def test_noindex_needs_all_three_list_views(self):
+        text = (FIXTURES / "ok.xml").read_text().replace(" or data:view.isArchive", "")
+        self.assertIn("noindex_lists:", "\n".join(check_text(text)))
+
     def test_also_missing_path_fails(self):
         self.assertEqual(main([str(FIXTURES / "ok.xml"), "--also", "does-not-exist"]), 1)
 

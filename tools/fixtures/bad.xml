@@ -3,7 +3,7 @@
 <html xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" b:css="true" b:js="true" b:layoutsVersion="2" b:defaultwidgetversion="1">
   <head><link href="https://evil.example/x"/><style>missing</style></head>
   <body>
-    <b:section id="hero"/><b:section id="header"/>
+    <b:widget id="Blog1" type="Blog"><h1 class="bi">T</h1><p/></b:widget><b:section id="hero"/><b:section id="header"/>
     <b:if cond="data:view.isHomepage"><b:section id="contact"/></b:if>
     <a data-wa="" href="#">WhatsApp</a>
     <script type="application/ld+json">{"name":"x","telephone":"1"}</script>

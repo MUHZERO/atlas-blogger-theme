@@ -173,6 +173,35 @@ def rule_ba_ltr(text: str, root) -> list[str]:
     return [] if rule and "direction:ltr" in rule.group(1) else [".ba rule must contain direction:ltr"]
 
 
+def rule_post_h1_inline_split(text: str, root) -> list[str]:
+    blogs = [element for element in root.iter() if local_name(element.tag) == "widget" and element.get("type") == "Blog"]
+    pairs = [(h1, list(parent)) for blog in blogs for parent in blog.iter() for h1 in parent
+             if local_name(h1.tag) == "h1" and "bi" in (h1.get("class") or "").split()]
+    if not pairs:
+        return ["Blog widget must render the post title as h1.bi"]
+    errors = []
+    for h1, siblings in pairs:
+        following = siblings[siblings.index(h1) + 1:siblings.index(h1) + 2]
+        script = following[0] if following and local_name(following[0].tag) == "script" else None
+        if script is None or "src" in script.attrib or \
+                "currentScript.previousElementSibling" not in "".join(script.itertext()):
+            errors.append("h1.bi in the Blog widget must be followed by the inline split script")
+    return errors
+
+
+def rule_noindex_lists(text: str, root) -> list[str]:
+    parents = {child: parent for parent in root.iter() for child in parent}
+    for meta in root.iter():
+        if local_name(meta.tag) == "meta" and meta.get("name") == "robots" and "noindex" in (meta.get("content") or ""):
+            conds, element = "", meta
+            while element is not None:
+                conds += " " + (element.get("cond") or "")
+                element = parents.get(element)
+            if all(view in conds for view in ("isLabelSearch", "isSearch", "isArchive")):
+                return []
+    return ["robots noindex must be emitted for isLabelSearch, isSearch and isArchive"]
+
+
 RULES = [
     ("well_formed", rule_well_formed),
     ("html_attrs", rule_html_attrs),
@@ -188,6 +217,8 @@ RULES = [
     ("nav_absolute", rule_nav_absolute),
     ("hero_lcp", rule_hero_lcp),
     ("ba_ltr", rule_ba_ltr),
+    ("post_h1_inline_split", rule_post_h1_inline_split),
+    ("noindex_lists", rule_noindex_lists),
 ]
 
 

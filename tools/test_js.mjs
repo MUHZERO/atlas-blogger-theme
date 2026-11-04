@@ -66,3 +66,34 @@ test('nextIndex wraps forward and back', () => {
   assert.equal(T.nextIndex(0, 1, 1), 0);
   assert.equal(T.nextIndex(1, 3, 1), 2);
 });
+
+test('scrollSign: ltr scrolls forward with +1, rtl with -1', () => {
+  assert.equal(T.scrollSign('ltr'), 1);
+  assert.equal(T.scrollSign('rtl'), -1);
+  assert.equal(T.scrollSign(''), 1);
+});
+
+// the standalone split right after the post h1 (atlas-js is not defined yet at that point)
+const inline = theme.match(/<h1 class='bi'><data:post\.title\/><\/h1>\s*<script>([\s\S]*?)<\/script>/)?.[1]
+  .replace(/^\s*\/\/<!\[CDATA\[\s*\n?|\n?\s*\/\/\]\]>\s*$/g, '') ?? '';
+const runInline = (text) => {
+  const h1 = { textContent: text, attrs: {}, setAttribute(k, v) { this.attrs[k] = v; } };
+  Object.defineProperty(h1, 'innerHTML', { set(v) { h1.html = v; h1.firstChild = { textContent: '' }; h1.lastChild = { textContent: '' }; } });
+  new Function('document', inline)({ currentScript: { previousElementSibling: h1 } });
+  return h1;
+};
+
+test('post h1 inline split: "FR | AR" becomes two spans, marked done', () => {
+  const h1 = runInline('Riad Médina | رياض المدينة');
+  assert.equal(h1.html, '<span lang="fr"></span><span lang="ar"></span>');
+  assert.equal(h1.firstChild.textContent, 'Riad Médina');
+  assert.equal(h1.lastChild.textContent, 'رياض المدينة');
+  assert.ok('data-done' in h1.attrs);
+});
+
+test('post h1 inline split: a title without " | " stays once, unchanged', () => {
+  const h1 = runInline('Atlas');
+  assert.equal(h1.html, undefined);
+  assert.equal(h1.textContent, 'Atlas');
+  assert.ok('data-done' in h1.attrs);
+});
