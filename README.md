@@ -77,6 +77,10 @@ Dans Blogger :
 
 Les pages de labels ne sont pas indexées par le `robots.txt` par défaut de Blogger.
 
+## Mettre à jour le thème
+
+Thème → Personnaliser ▸ Restaurer avec le nouveau `theme.xml`. Les titres, images, légendes, liens et contenus HTML saisis dans Mise en page sont conservés : les widgets du thème ne portent volontairement aucun titre par défaut. Dans Mise en page, ils s'affichent donc par leur type (Image, Liste de liens, HTML) ; leur rôle est indiqué dans `demo/widgets.md`.
+
 ## Performance
 
 Mesuré sur la démo avec PageSpeed Insights (5 novembre 2026) :
@@ -159,6 +163,10 @@ docs/       التصميم والخطة
 6. **Theme Designer**: يمكن تغيير الألوان الأربعة؛ الخط ثابت.
 
 صفحات التصنيفات غير مفهرسة بواسطة ملف `robots.txt` الافتراضي في Blogger.
+
+### تحديث القالب
+
+المظهر ← تخصيص ▸ استعادة، مع `theme.xml` الجديد. العناوين والتصاور والكابشن والروابط ومحتوى HTML اللي تكتبو فالتنسيق كيبقاو كيف ما هوما، حيت الـ widgets ديال القالب ما فيهمش عنوان افتراضي بالقصد. لهذا كيبانو فالتنسيق بالنوع ديالهم (صورة، قائمة روابط، HTML)، والدور ديال كل واحد مكتوب فـ `demo/widgets.md`.
 
 ### الأداء
 

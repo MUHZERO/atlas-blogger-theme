@@ -213,6 +213,13 @@ def rule_og_present(text: str, root) -> list[str]:
     return [f"meta {key} is missing" for key in OG_REQUIRED if key not in found]
 
 
+def rule_widgets_untitled(text: str, root) -> list[str]:
+    # a title attribute in the theme overwrites the owner's widget title on every theme restore
+    keep = {"Blog1", "Header1"}
+    return [f"widget {e.get('id')} must not carry a title attribute"
+            for e in root.iter() if local_name(e.tag) == "widget" and e.get("id") not in keep and e.get("title") is not None]
+
+
 RULES = [
     ("well_formed", rule_well_formed),
     ("html_attrs", rule_html_attrs),
@@ -232,6 +239,7 @@ RULES = [
     ("noindex_lists", rule_noindex_lists),
     ("one_canonical", rule_one_canonical),
     ("og_present", rule_og_present),
+    ("widgets_untitled", rule_widgets_untitled),
 ]
 
 

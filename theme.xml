@@ -387,7 +387,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </b:includable>
     </b:widget>
     <!-- LinkList2 items: NAME = "FR | AR", TARGET = #services, #projets... (kept on the home page from any view) or a full address -->
-    <b:widget id='LinkList2' locked='true' title='Navigation' type='LinkList' version='2' visible='true'>
+    <b:widget id='LinkList2' locked='true' type='LinkList' version='2' visible='true'>
       <b:includable id='main'>
         <nav>
           <b:loop values='data:links' var='link'>
@@ -411,10 +411,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </header>
 <main>
+<!-- Owner widgets carry no title attribute: Blogger then keeps the titles typed in Layout when a new theme.xml is restored. -->
   <!-- Image2: TITLE = h1 "FR | AR", CAPTION = subline "FR | AR", LINK = primary button. Image3, Image4: image only. -->
   <b:section class='hero' id='hero' maxwidgets='3' showaddelement='yes'>
     <!-- Image2 must stay first in this section: it carries the hero text and the only fetchpriority image -->
-    <b:widget id='Image2' locked='false' title='Hero 1' type='Image' version='2' visible='true'>
+    <b:widget id='Image2' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
           <b:if cond='data:sourceUrl'>
@@ -432,14 +433,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </b:if>
       </b:includable>
     </b:widget>
-    <b:widget id='Image3' locked='false' title='Hero 2' type='Image' version='2' visible='true'>
+    <b:widget id='Image3' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='slide'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSet(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' loading='lazy' sizes='100vw'/></div>
         </b:if>
       </b:includable>
     </b:widget>
-    <b:widget id='Image4' locked='false' title='Hero 3' type='Image' version='2' visible='true'>
+    <b:widget id='Image4' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='slide'><img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1800)' expr:srcset='sourceSet(data:sourceUrl, [800, 1400, 1800])' expr:width='data:width' loading='lazy' sizes='100vw'/></div>
@@ -449,7 +450,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </b:section>
   <!-- LinkList3 items: NAME = "FR | AR", TARGET unused -->
   <b:section class='marquee' id='marquee' maxwidgets='1' showaddelement='yes'>
-    <b:widget id='LinkList3' locked='false' title='Marquee' type='LinkList' version='2' visible='true'>
+    <b:widget id='LinkList3' locked='false' type='LinkList' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
           <div class='mq-track'><b:loop values='data:links' var='link'><span class='bi'><data:link.name/></span></b:loop></div>
@@ -462,7 +463,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
        HTML1: small tiles, <div class="tile" data-icon="paint"><h3>...</h3><p>...</p></div>;
        icons: paint tile drop bolt shield clock chat home (other = home); class "tile wide" = accent tile over two columns. -->
   <b:section class='bento' id='services' showaddelement='yes'>
-    <b:widget id='Image5' locked='false' title='Service principal' type='Image' version='2' visible='true'>
+    <b:widget id='Image5' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
           <div class='hd'>
@@ -478,7 +479,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </b:if>
       </b:includable>
     </b:widget>
-    <b:widget id='HTML1' locked='false' title='Services' type='HTML' version='2' visible='true'>
+    <b:widget id='HTML1' locked='false' type='HTML' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'><data:content/></b:if>
       </b:includable>
@@ -486,7 +487,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </b:section>
   <!-- LinkList4 items: NAME = step "FR | AR", TARGET unused. Image6 = before, Image7 = after; TITLE = tag "FR | AR". -->
   <b:section class='ba-wrap' id='beforeafter' showaddelement='yes'>
-    <b:widget id='LinkList4' locked='false' title='Étapes' type='LinkList' version='2' visible='true'>
+    <b:widget id='LinkList4' locked='false' type='LinkList' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
           <h2 class='rv'><span lang='fr'>Glissez pour voir la différence</span><span lang='ar'>اسحب لترى الفرق</span></h2>
@@ -494,7 +495,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </b:if>
       </b:includable>
     </b:widget>
-    <b:widget id='Image6' locked='false' title='Avant | قبل' type='Image' version='2' visible='true'>
+    <b:widget id='Image6' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='ba rv'>
@@ -504,7 +505,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </b:if>
       </b:includable>
     </b:widget>
-    <b:widget id='Image7' locked='false' title='Après | بعد' type='Image' version='2' visible='true'>
+    <b:widget id='Image7' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='ba rv'>
@@ -628,7 +629,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <!-- HTML2: write the FINAL value as the text (shown if JS fails); the count-up still runs from data-count: one <div><b data-count="340" data-suffix="+">340+</b><span lang="fr">..</span><span lang="ar">..</span></div> per figure -->
   <div class='wrap blk'>
   <b:section class='nums' id='numbers' showaddelement='yes'>
-    <b:widget id='HTML2' locked='false' title='Chiffres' type='HTML' version='2' visible='true'>
+    <b:widget id='HTML2' locked='false' type='HTML' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'><data:content/></b:if>
       </b:includable>
@@ -638,7 +639,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <!-- HTML3: <div class="review"> blocks: .stars, <blockquote> and .who, texts as lang spans -->
   <div class='wrap blk rev'>
   <b:section class='reviews rv' id='reviews' showaddelement='yes'>
-    <b:widget id='HTML3' locked='false' title='Avis' type='HTML' version='2' visible='true'>
+    <b:widget id='HTML3' locked='false' type='HTML' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
           <div class='rtrack'><data:content/></div>
@@ -651,7 +652,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class='wrap blk' id='equipe'>
   <h2 class='rv'><span lang='fr'>Les personnes derrière</span><span lang='ar'>من وراء العمل</span></h2>
   <b:section class='team' id='team' showaddelement='yes'>
-    <b:widget id='Image8' locked='false' title='Équipe 1' type='Image' version='2' visible='true'>
+    <b:widget id='Image8' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='member rv'>
@@ -662,7 +663,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </b:if>
       </b:includable>
     </b:widget>
-    <b:widget id='Image9' locked='false' title='Équipe 2' type='Image' version='2' visible='true'>
+    <b:widget id='Image9' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='member rv'>
@@ -673,7 +674,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </b:if>
       </b:includable>
     </b:widget>
-    <b:widget id='Image10' locked='false' title='Équipe 3' type='Image' version='2' visible='true'>
+    <b:widget id='Image10' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='member rv'>
@@ -684,7 +685,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </b:if>
       </b:includable>
     </b:widget>
-    <b:widget id='Image11' locked='false' title='Équipe 4' type='Image' version='2' visible='true'>
+    <b:widget id='Image11' locked='false' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage and data:sourceUrl'>
           <div class='member rv'>
@@ -699,7 +700,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
   <div class='wrap contact-wrap'>
   <b:section class='cta-band rv' id='contact' maxwidgets='2' showaddelement='no'>
-    <b:widget id='Image1' locked='true' title='Contact background' type='Image' version='2' visible='true'>
+    <b:widget id='Image1' locked='true' type='Image' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:sourceUrl'>
           <img alt='' expr:height='data:height' expr:src='resizeImage(data:sourceUrl, 1600)' expr:srcset='sourceSet(data:sourceUrl, [800, 1200, 1600])' expr:width='data:width' loading='lazy' sizes='100vw'/>
@@ -709,7 +710,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <!-- LinkList1 items: NAME = display text ("FR | AR" allowed), TARGET = key.
          wa.me or api.whatsapp.com = WhatsApp, tel:... = phone,
          a Google Maps link = address, #hours = opening hours. -->
-    <b:widget id='LinkList1' locked='true' title='Contact' type='LinkList' version='2' visible='true'>
+    <b:widget id='LinkList1' locked='true' type='LinkList' version='2' visible='true'>
       <b:includable id='main'>
         <div>
           <h2><span lang='fr'>Parlons de votre projet</span><span lang='ar'>حدثنا عن مشروعك</span></h2>
