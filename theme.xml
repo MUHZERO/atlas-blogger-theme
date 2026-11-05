@@ -252,6 +252,7 @@ html[lang=ar] .list h1,html[lang=ar] .post h1,html[lang=ar] .nf h1{line-height:1
 html[lang=ar] .facts dt{letter-spacing:0;font-size:13px}
 .facts dd{margin:4px 0 0;font-size:16px;font-weight:600}
 .facts a:hover{color:var(--accent)}
+.facts .meta{font-size:inherit;color:inherit}
 .post-body{font-size:17px;overflow-wrap:anywhere}
 .post-body>*+*,.post-body div+div{margin-top:16px}
 .post-body img{width:100%;height:auto;border-radius:var(--radius);margin-block:16px}
