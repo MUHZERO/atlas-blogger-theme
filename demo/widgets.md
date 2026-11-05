@@ -22,15 +22,15 @@ Type: Image
 Title: `Rénovation clé en main. | ترميم شقتك من البداية للتسليم.`
 Caption: `Devis gratuit sous 48 h. | عرض سعر مجاني خلال 48 ساعة.`
 Link: `#contact`
-Image source: `https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1800&fit=crop`
+Image source: `https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1000&q=60&auto=format&fit=crop`
 
 ## Image3 (hero 2)
 Type: Image
-Image source: `https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&fit=crop`
+Image source: `https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1000&q=60&auto=format&fit=crop`
 
 ## Image4 (hero 3)
 Type: Image
-Image source: `https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1800&fit=crop`
+Image source: `https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1000&q=60&auto=format&fit=crop`
 
 ## LinkList3 (marquee)
 Type: LinkList
@@ -45,7 +45,7 @@ Type: LinkList
 Type: Image
 Title: `Rénovation complète | ترميم شامل`
 Caption: `Du gros œuvre à la finition | من الأساس حتى التشطيب`
-Image source: `https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1000&fit=crop`
+Image source: `https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1000&q=60&auto=format&fit=crop`
 
 ## HTML1 (services)
 Type: HTML
@@ -67,7 +67,7 @@ Image source: `TODO: a real unrenovated-room photo (Unsplash, free licence) — 
 ## Image7 (after)
 Type: Image
 Title: `Après | بعد`
-Image source: `https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1200&fit=crop`
+Image source: `https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1200&q=60&auto=format&fit=crop`
 
 ## LinkList4 (steps)
 Type: LinkList
@@ -97,25 +97,25 @@ Type: HTML
 Type: Image
 Title: `Youssef A. | يوسف أ.`
 Caption: `Fondateur | المؤسس`
-Image source: `https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=660&fit=crop`
+Image source: `https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=660&q=60&auto=format&fit=crop`
 
 ## Image9 (team 2)
 Type: Image
 Title: `Nadia K. | نادية ك.`
 Caption: `Architecte | مهندسة معمارية`
-Image source: `https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=660&fit=crop`
+Image source: `https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=660&q=60&auto=format&fit=crop`
 
 ## Image10 (team 3)
 Type: Image
 Title: `Hamid R. | حامد ر.`
 Caption: `Chef de chantier | رئيس الورش`
-Image source: `https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&h=660&fit=crop`
+Image source: `https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&h=660&q=60&auto=format&fit=crop`
 
 ## Image11 (team 4)
 Type: Image
 Title: `Omar L. | عمر ل.`
 Caption: `Électricien | كهربائي`
-Image source: `https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=660&fit=crop`
+Image source: `https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=660&q=60&auto=format&fit=crop`
 
 ## LinkList1 (contact)
 The target decides the role: `wa.me` = WhatsApp, `tel:` = phone, `#hours` = hours, Google Maps = address.
@@ -127,4 +127,4 @@ Type: LinkList
 
 ## Image1 (contact background)
 Type: Image
-Image source: `https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&fit=crop`
+Image source: `https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&q=60&auto=format&fit=crop`

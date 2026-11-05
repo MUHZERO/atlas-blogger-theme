@@ -42,7 +42,9 @@ if(typeof module!='undefined')module.exports={pickLang};
 <b:if cond='data:view.isLabelSearch or data:view.isSearch or data:view.isArchive'><meta content='noindex,follow' name='robots'/></b:if>
 <link href='https://fonts.googleapis.com' rel='preconnect'/>
 <link crossorigin='' href='https://fonts.gstatic.com' rel='preconnect'/>
-<link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>
+<!-- font CSS loads without blocking the first paint (display=swap); noscript keeps it for no-JS visitors -->
+<link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap' media='print' onload='this.media=&quot;all&quot;' rel='stylesheet'/>
+<noscript><link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/></noscript>
 <b:skin><![CDATA[
 /* Atlas theme: base styles. Component CSS is added by later tasks.
    Theme Designer colours:
@@ -332,11 +334,20 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .fab::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--accent);animation:ping 2.4s ease-out infinite;z-index:-1}
 @keyframes ping{to{transform:scale(1.6);opacity:0}}
 .fab svg{width:26px;height:26px}
+/* Blogger's EU cookie notice (injected by Blogger, inline styles): restyled as a small card at the bottom */
+#cookieChoiceInfo{top:auto!important;bottom:16px!important;left:16px!important;right:auto!important;width:auto!important;max-width:380px;margin:0!important;padding:16px 18px!important;background:var(--ink)!important;color:#fff!important;border-radius:var(--radius);box-shadow:0 12px 40px rgba(0,0,0,.25);font:13px/1.5 "IBM Plex Sans Arabic",system-ui,sans-serif!important;text-align:start!important;z-index:50!important}
+#cookieChoiceInfo .cookie-choices-inner{margin:0!important;padding:0!important;text-align:start!important}
+#cookieChoiceInfo .cookie-choices-text{display:block;margin:0 0 12px!important;font:inherit!important;color:rgba(255,255,255,.85)!important}
+#cookieChoiceInfo .cookie-choices-buttons{display:flex!important;gap:8px;margin:0!important;white-space:normal!important}
+#cookieChoiceInfo .cookie-choices-button{display:inline-flex!important;align-items:center;height:36px;padding:0 14px!important;margin:0!important;border-radius:999px;font:600 13px/1 "IBM Plex Sans Arabic",system-ui,sans-serif!important;text-transform:none!important;color:#fff!important;border:1px solid rgba(255,255,255,.3)}
+#cookieChoiceInfo #cookieChoiceDismiss{background:#fff;color:var(--ink)!important;border-color:#fff}
+html[dir=rtl] #cookieChoiceInfo{left:auto!important;right:16px!important}
 @media (max-width:960px){
   .bar nav,.bar .btn{display:none}
   .lang{margin-inline-start:auto}
   .cta-band .LinkList{grid-template-columns:1fr;padding:48px 24px}
   .fab{display:grid}
+  #cookieChoiceInfo{right:16px!important;max-width:none;bottom:88px!important}
   footer{padding-bottom:96px}
 }
 
