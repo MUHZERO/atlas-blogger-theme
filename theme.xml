@@ -243,8 +243,15 @@ html[lang=ar] .list h1,html[lang=ar] .post h1,html[lang=ar] .nf h1{line-height:1
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:32px 20px}
 .empty{color:var(--muted)}
 .post{max-width:860px}
-.post .eyebrow{gap:12px}
-.post .eyebrow time{font-weight:500}
+/* project page: quiet back link above the title, facts strip below it */
+.post .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);transition:color .3s}
+.post .back:hover{color:var(--ink)}
+.post .back svg{width:16px;height:16px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:-8px 0 32px;padding:18px 0;border-block:1px solid var(--line)}
+.facts dt{font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+html[lang=ar] .facts dt{letter-spacing:0;font-size:13px}
+.facts dd{margin:4px 0 0;font-size:16px;font-weight:600}
+.facts a:hover{color:var(--accent)}
 .post-body{font-size:17px;overflow-wrap:anywhere}
 .post-body>*+*,.post-body div+div{margin-top:16px}
 .post-body img{width:100%;height:auto;border-radius:var(--radius);margin-block:16px}
@@ -590,10 +597,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='item' var='post'>
         <article>
           <b:if cond='data:view.isPost'>
-            <div class='eyebrow'>
-              <b:loop index='i' values='data:post.labels' var='label'><b:if cond='data:i == 0'><a class='bi' expr:href='data:label.url'><data:label.name/></a></b:if></b:loop>
-              <time class='meta' expr:datetime='data:post.date.iso8601'><data:post.date/></time>
-            </div>
+            <a class='back' expr:href='data:blog.homepageUrl + &quot;#projets&quot;'><svg class='flip'><use href='#i-left'/></svg><span lang='fr'>Réalisations</span><span lang='ar'>أعمالنا</span></a>
           </b:if>
           <h1 class='bi'><data:post.title/></h1>
           <script>
@@ -601,6 +605,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 !function(h){var t=h.textContent,i=t.indexOf(' | ');h.setAttribute('data-done','');if(i>-1){h.innerHTML='<span lang="fr"></span><span lang="ar"></span>';h.firstChild.textContent=t.slice(0,i).trim();h.lastChild.textContent=t.slice(i+3).trim()}}(document.currentScript.previousElementSibling)
 //]]>
           </script>
+          <b:if cond='data:view.isPost'>
+            <dl class='facts'>
+              <b:loop index='i' values='data:post.labels' var='label'><b:if cond='data:i == 0'><div><dt><span lang='fr'>Catégorie</span><span lang='ar'>الصنف</span></dt><dd><a class='bi' expr:href='data:label.url'><data:label.name/></a></dd></div></b:if></b:loop>
+              <div><dt><span lang='fr'>Année</span><span lang='ar'>السنة</span></dt><dd><time class='meta' expr:datetime='data:post.date.iso8601'><data:post.date/></time></dd></div>
+            </dl>
+          </b:if>
           <div class='post-body'><data:post.body/></div>
           <b:if cond='data:view.isPost'>
             <div class='post-foot'>
