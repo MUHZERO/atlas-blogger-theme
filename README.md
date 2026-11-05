@@ -4,7 +4,7 @@
 
 Thème Blogger gratuit et open source pour le site vitrine d'une petite entreprise de services, en français et en arabe.
 
-[Démo](https://atlas-demo.blogspot.com) · [Installation](#installation)
+[Démo](https://atlas-muh.blogspot.com) · [Installation](#installation)
 
 </div>
 
@@ -21,7 +21,7 @@ Thème Blogger gratuit et open source pour le site vitrine d'une petite entrepri
   <img src="https://img.shields.io/badge/licence-MIT-750014" alt="licence-MIT">
   <img src="https://img.shields.io/badge/Blogger-layouts%20v3-FF5722" alt="Blogger-layouts v3">
   <img src="https://img.shields.io/badge/JavaScript-0%20d%C3%A9pendance-F7DF1E" alt="JavaScript-0 dépendance">
-  <img src="https://img.shields.io/badge/PageSpeed-%C3%A0%20mesurer-9E9E9E" alt="PageSpeed-à mesurer">
+  <img src="https://img.shields.io/badge/PageSpeed%20mobile-97-0CCE6B" alt="PageSpeed mobile 97">
   <img src="https://img.shields.io/badge/langues-FR%20%7C%20AR-4285F4" alt="langues-FR | AR">
 </p>
 
@@ -76,6 +76,18 @@ Dans Blogger :
 6. **Theme Designer** : les 4 couleurs peuvent être modifiées ; la police est fixe.
 
 Les pages de labels ne sont pas indexées par le `robots.txt` par défaut de Blogger.
+
+## Performance
+
+Mesuré sur la démo avec PageSpeed Insights (5 novembre 2026) :
+
+| Page | Appareil | Performance | Accessibilité | Bonnes pratiques | SEO |
+|---|---|---|---|---|---|
+| Accueil | Mobile | 97 | 100 | 100 | 100 |
+| Accueil | Ordinateur | 99 | 100 | 100 | 100 |
+| Projet | Mobile | 85 | 98 | 100 | 100 |
+
+La page projet de la démo charge une photo Unsplash de 800 px non optimisée par Blogger ; avec des images importées dans Blogger, le poids baisse.
 
 ## Développement
 
@@ -147,6 +159,18 @@ docs/       التصميم والخطة
 6. **Theme Designer**: يمكن تغيير الألوان الأربعة؛ الخط ثابت.
 
 صفحات التصنيفات غير مفهرسة بواسطة ملف `robots.txt` الافتراضي في Blogger.
+
+### الأداء
+
+تم القياس على النسخة التجريبية بـ PageSpeed Insights (5 نونبر 2026):
+
+| الصفحة | الجهاز | الأداء | الوصولية | الممارسات | SEO |
+|---|---|---|---|---|---|
+| الرئيسية | موبايل | 97 | 100 | 100 | 100 |
+| الرئيسية | حاسوب | 99 | 100 | 100 | 100 |
+| مشروع | موبايل | 85 | 98 | 100 | 100 |
+
+صفحة المشروع فالنسخة التجريبية كتحمّل تصويرة من Unsplash ما مرتش من Blogger؛ مع تصاور مرفوعة لـ Blogger كيخف الوزن.
 
 ### التطوير
 
