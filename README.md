@@ -21,7 +21,7 @@ Thème Blogger gratuit et open source pour le site vitrine d'une petite entrepri
   <img src="https://img.shields.io/badge/licence-MIT-750014" alt="licence-MIT">
   <img src="https://img.shields.io/badge/Blogger-layouts%20v3-FF5722" alt="Blogger-layouts v3">
   <img src="https://img.shields.io/badge/JavaScript-0%20d%C3%A9pendance-F7DF1E" alt="JavaScript-0 dépendance">
-  <img src="https://img.shields.io/badge/PageSpeed%20mobile-97-0CCE6B" alt="PageSpeed mobile 97">
+  <img src="https://img.shields.io/badge/PageSpeed%20mobile-100-0CCE6B" alt="PageSpeed mobile 100">
   <img src="https://img.shields.io/badge/langues-FR%20%7C%20AR-4285F4" alt="langues-FR | AR">
 </p>
 
@@ -83,11 +83,11 @@ Thème → Personnaliser ▸ Restaurer avec le nouveau `theme.xml`. Les titres, 
 
 ## Performance
 
-Mesuré sur la démo avec PageSpeed Insights (5 novembre 2026) :
+Mesuré sur la démo avec PageSpeed Insights (5 novembre 2026 ; accueil mobile mesuré deux fois après le chargement non bloquant de la police) :
 
 | Page | Appareil | Performance | Accessibilité | Bonnes pratiques | SEO |
 |---|---|---|---|---|---|
-| Accueil | Mobile | 97 | 100 | 100 | 100 |
+| Accueil | Mobile | 100 | 100 | 100 | 100 |
 | Accueil | Ordinateur | 99 | 100 | 100 | 100 |
 | Projet | Mobile | 85 | 98 | 100 | 100 |
 
@@ -170,11 +170,11 @@ docs/       التصميم والخطة
 
 ### الأداء
 
-تم القياس على النسخة التجريبية بـ PageSpeed Insights (5 نونبر 2026):
+تم القياس على النسخة التجريبية بـ PageSpeed Insights (5 نونبر 2026؛ الرئيسية فالموبايل تقاست جوج مرات من بعد ما ولى الخط كيتحمل بلا ما يوقف العرض):
 
 | الصفحة | الجهاز | الأداء | الوصولية | الممارسات | SEO |
 |---|---|---|---|---|---|
-| الرئيسية | موبايل | 97 | 100 | 100 | 100 |
+| الرئيسية | موبايل | 100 | 100 | 100 | 100 |
 | الرئيسية | حاسوب | 99 | 100 | 100 | 100 |
 | مشروع | موبايل | 85 | 98 | 100 | 100 |
 
