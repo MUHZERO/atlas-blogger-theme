@@ -313,12 +313,9 @@ html[dir=rtl] .cta-band::before{background:linear-gradient(-100deg,rgba(15,40,32
 .cta-band .Image{position:absolute;inset:0;z-index:-2}
 .cta-band .Image img{width:100%;height:100%;object-fit:cover}
 .cta-band .LinkList{padding:72px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em}
-.eyebrow::before{content:"";width:18px;height:2px;background:currentColor}
 :where(h2:not(.post-body h2)){font-size:clamp(28px,4.4vw,44px);line-height:1.15;font-weight:700;margin:10px 0 40px;letter-spacing:-.01em}
 html[lang=ar] :where(h2:not(.post-body h2)){line-height:1.35;letter-spacing:0}
 .cta-band h2{margin:10px 0 16px}
-.cta-band .eyebrow{color:var(--accent-2)}
 .cta-band .rows{display:grid;gap:10px;margin-top:28px}
 .cta-band .r{display:flex;align-items:center;gap:12px;font-size:15px;opacity:.9}
 .ltr{direction:ltr;unicode-bidi:isolate}
@@ -469,7 +466,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
           <div class='hd'>
-            <div class='eyebrow rv'><span lang='fr'>Services</span><span lang='ar'>الخدمات</span></div>
             <h2 class='rv'><span lang='fr'>Ce que nous faisons</span><span lang='ar'>ماذا نقدم</span></h2>
           </div>
           <b:if cond='data:sourceUrl'>
@@ -493,7 +489,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <b:widget id='LinkList4' locked='false' title='Étapes' type='LinkList' version='2' visible='true'>
       <b:includable id='main'>
         <b:if cond='data:view.isHomepage'>
-          <div class='eyebrow rv'><span lang='fr'>Avant / Après</span><span lang='ar'>قبل / بعد</span></div>
           <h2 class='rv'><span lang='fr'>Glissez pour voir la différence</span><span lang='ar'>اسحب لترى الفرق</span></h2>
           <div class='steps rv'><b:loop values='data:links' var='link'><div class='step bi'><data:link.name/></div></b:loop></div>
         </b:if>
@@ -529,7 +524,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <b:includable id='main'>
         <b:if cond='data:view.isError'>
           <div class='wrap nf'>
-            <div class='eyebrow'>404</div>
             <h1><span lang='fr'>Page introuvable</span><span lang='ar'>الصفحة غير موجودة</span></h1>
             <a class='btn btn-primary' expr:href='data:blog.homepageUrl'><svg><use href='#i-home'/></svg><span lang='fr'>Retour à l'accueil</span><span lang='ar'>العودة للرئيسية</span></a>
           </div>
@@ -543,7 +537,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <section class='projs' id='projets'>
               <div class='wrap head'>
                 <div>
-                  <div class='eyebrow rv'><span lang='fr'>Réalisations</span><span lang='ar'>أعمالنا</span></div>
                   <h2 class='rv'><span lang='fr'>Projets récents</span><span lang='ar'>آخر المشاريع</span></h2>
                 </div>
                 <div class='arrows'>
@@ -558,7 +551,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <b:else/>
           <!-- label, search, archive and older home pages: grid + noindex (head) -->
           <div class='wrap list'>
-            <div class='eyebrow'><span lang='fr'>Réalisations</span><span lang='ar'>أعمالنا</span></div>
             <b:if cond='data:view.isLabelSearch'>
               <h1 class='bi'><data:view.search.label/></h1>
               <!-- same split as the post h1 (includable item) -->
@@ -657,7 +649,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
   <!-- Image8-11: TITLE = name, CAPTION = role, both "FR | AR" -->
   <div class='wrap blk' id='equipe'>
-  <div class='eyebrow rv'><span lang='fr'>Équipe</span><span lang='ar'>الفريق</span></div>
   <h2 class='rv'><span lang='fr'>Les personnes derrière</span><span lang='ar'>من وراء العمل</span></h2>
   <b:section class='team' id='team' showaddelement='yes'>
     <b:widget id='Image8' locked='false' title='Équipe 1' type='Image' version='2' visible='true'>
@@ -721,7 +712,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <b:widget id='LinkList1' locked='true' title='Contact' type='LinkList' version='2' visible='true'>
       <b:includable id='main'>
         <div>
-          <div class='eyebrow'><span lang='fr'>Contact</span><span lang='ar'>اتصل بنا</span></div>
           <h2><span lang='fr'>Parlons de votre projet</span><span lang='ar'>حدثنا عن مشروعك</span></h2>
           <b:loop values='data:links' var='link'>
             <b:if cond='data:link.target contains &quot;wa.me&quot; or data:link.target contains &quot;api.whatsapp.com&quot;'>
