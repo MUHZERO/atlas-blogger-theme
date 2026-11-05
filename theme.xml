@@ -347,7 +347,7 @@ html[dir=rtl] #cookieChoiceInfo{left:auto!important;right:16px!important}
   .lang{margin-inline-start:auto}
   .cta-band .LinkList{grid-template-columns:1fr;padding:48px 24px}
   .fab{display:grid}
-  #cookieChoiceInfo{right:16px!important;max-width:none;bottom:88px!important}
+  html[dir] #cookieChoiceInfo{left:16px!important;right:16px!important;max-width:none;bottom:88px!important}
   footer{padding-bottom:96px}
 }
 
