@@ -329,6 +329,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .lang{margin-inline-start:auto}
   .cta-band .LinkList{grid-template-columns:1fr;padding:48px 24px}
   .fab{display:grid}
+  footer{padding-bottom:96px}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -946,7 +947,7 @@ function init(){
     };
   });
   /* project cards show the year only */
-  all('.proj time').forEach(function(time){ var year = (time.getAttribute('datetime') || '').slice(0, 4); if (year) time.textContent = year; });
+  all('time.meta').forEach(function(time){ var year = (time.getAttribute('datetime') || '').slice(0, 4); if (year) time.textContent = year; });
 }
 if (typeof document !== 'undefined') init();
 if (typeof module !== 'undefined') module.exports = {splitBi: splitBi, waUrl: waUrl, buildLd: buildLd, setLang: setLang, applyBi: applyBi, nextIndex: nextIndex, scrollSign: scrollSign};
