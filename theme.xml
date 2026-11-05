@@ -405,6 +405,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a class='btn btn-primary' data-wa='' href='#contact'><svg><use href='#i-chat'/></svg>WhatsApp</a>
   </div>
 </header>
+<main>
   <!-- Image2: TITLE = h1 "FR | AR", CAPTION = subline "FR | AR", LINK = primary button. Image3, Image4: image only. -->
   <b:section class='hero' id='hero' maxwidgets='3' showaddelement='yes'>
     <!-- Image2 must stay first in this section: it carries the hero text and the only fetchpriority image -->
@@ -741,6 +742,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </b:section>
   </div>
 
+</main>
 <footer>
   <div class='wrap'>
     <span><span data-year=''>&#169;</span> <span data-bi=''><data:blog.title/></span></span>
