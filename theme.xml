@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
 <html b:css='false' b:js='false' b:layoutsVersion='3' b:defaultwidgetversion='2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr' expr:data-default='data:blog.locale' expr:dir='data:blog.locale contains &quot;ar&quot; ? &quot;rtl&quot; : &quot;ltr&quot;' expr:lang='data:blog.locale contains &quot;ar&quot; ? &quot;ar&quot; : &quot;fr&quot;'>
 <head>
 <meta charset='utf-8'/>
@@ -13,11 +14,13 @@ if(typeof module!='undefined')module.exports={pickLang};
 </script>
 <!-- title: home = blog title, post or page = its title + blog title, any other view keeps Blogger's view title -->
 <title><b:if cond='data:view.isSingleItem'><data:blog.pageName.escaped/> — <data:blog.title.escaped/><b:elseif cond='data:view.isHomepage'/><data:blog.title.escaped/><b:else/><data:view.title.escaped/></b:if></title>
-<!-- description: home = blog description, post or page = search description else snippet (data:view.description) -->
+<!-- description: home = meta description setting, else blog description; post or page = search description else snippet (data:view.description) -->
 <b:if cond='data:view.isSingleItem'>
   <b:if cond='data:view.description'><meta expr:content='data:view.description' name='description'/><meta expr:content='data:view.description' property='og:description'/></b:if>
 <b:elseif cond='data:blog.metaDescription'/>
   <meta expr:content='data:blog.metaDescription' name='description'/><meta expr:content='data:blog.metaDescription' property='og:description'/>
+<b:elseif cond='data:view.description'/>
+  <meta expr:content='data:view.description' name='description'/><meta expr:content='data:view.description' property='og:description'/>
 </b:if>
 <link expr:href='data:view.url.canonical' rel='canonical'/>
 <link expr:href='data:blog.blogspotFaviconUrl' rel='icon' type='image/x-icon'/>
