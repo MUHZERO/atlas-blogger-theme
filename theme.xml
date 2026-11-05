@@ -337,7 +337,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 /* Blogger's EU cookie notice (injected by Blogger, inline styles): restyled as a small card at the bottom */
 #cookieChoiceInfo{top:auto!important;bottom:16px!important;left:16px!important;right:auto!important;width:auto!important;max-width:380px;margin:0!important;padding:16px 18px!important;background:var(--ink)!important;color:#fff!important;border-radius:var(--radius);box-shadow:0 12px 40px rgba(0,0,0,.25);font:13px/1.5 "IBM Plex Sans Arabic",system-ui,sans-serif!important;text-align:start!important;z-index:50!important}
 #cookieChoiceInfo .cookie-choices-inner{margin:0!important;padding:0!important;text-align:start!important}
-#cookieChoiceInfo .cookie-choices-text{display:block;margin:0 0 12px!important;font:inherit!important;color:rgba(255,255,255,.85)!important}
+#cookieChoiceInfo .cookie-choices-text{display:block;unicode-bidi:plaintext;margin:0 0 12px!important;font:inherit!important;color:rgba(255,255,255,.85)!important}
 #cookieChoiceInfo .cookie-choices-buttons{display:flex!important;gap:8px;margin:0!important;white-space:normal!important}
 #cookieChoiceInfo .cookie-choices-button{display:inline-flex!important;align-items:center;height:36px;padding:0 14px!important;margin:0!important;border-radius:999px;font:600 13px/1 "IBM Plex Sans Arabic",system-ui,sans-serif!important;text-transform:none!important;color:#fff!important;border:1px solid rgba(255,255,255,.3)}
 #cookieChoiceInfo #cookieChoiceDismiss{background:#fff;color:var(--ink)!important;border-color:#fff}
